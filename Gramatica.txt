@@ -1,0 +1,34 @@
+Para simplificacion se utilizan los siguientes terminos:
+
+letrasminus  = [a-z]
+letrasmayus = [A-Z]
+num = [0-9]
+especial =[ -/:-@\[-`{-}] //este conjunto abarca tambien los caracteres aceptados en el lenguaje, incluido el espacio
+
+
+Terminal:  '{', '}', 'CONJ', ';', ',', '-', '"', '%%', ':', 'ID', '-', '>', letraminus, letramayus, num, especial
+
+No terminal: <Inicio>. <Lenguajes>, <Lenguaje>,<Declaraciones>,<Declaracion>,<Notacion>,
+<RangoConj>,<ListaConj>,<Elemento>,<Expresiones>,Expresion>,<ExReg>,
+<otraExReg>,<Lexemas>,<Lexema>,<Lex_evaluar>,<otro_Lex>
+
+Inicio : <Inicio>
+
+
+<Inicio>   ::=  { <Lenguajes> }
+<Lenguajes>   ::= <Lenguajes><Lenguaje> | <Lenguaje>
+<Lenguaje>   ::=  <Declaraciones>|<Expresiones>|'%%'|<Lexemas>
+<Declaraciones>  ::=  <Declaraciones><Declaracion>|<Declaracion>
+<Declaracion>  ::=   'CONJ' ':' 'ID' '-' '>' <Notacion> ';'
+<Notacion>  ::=  <RangoConj>|<ListaConj>
+<RangoConj> ::= letraminus '-' letraminus| letramayus '-' letramayus| num '-' num| especial '-' especial
+<ListaConj> ::= <Elemento>|<Elemento> ',' <ListaConj>
+<Elemento>  ::= letraminus|letramayus|num|especial
+<Expresiones>  ::= <Expresiones><Expresion>|<Expresion>
+<Expresion> ::= 'ID' '-' '>' <ExReg> ';'
+<ExReg>  ::=   <ExReg><otraExReg>|<otraExReg>
+<otraExReg> ::= especial | letraminus|letramayus| nume|'{' ID '}'
+<Lexemas> :: = <Lexemas> <Lexema> | <Lexema>
+<Lexema> ::=  ID : '"' <Lex_evaluar> '"' ';'
+<Lex_evaluar> ::=  <Lex_evaluar> <otro_Lex>|<otro_Lex
+<otro_Lex>  ::=  especial | letraminus|letramayus| num| ID

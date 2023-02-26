@@ -1,4 +1,8 @@
 
+import Analizadores.Sintactico;
+import Analizadores.Lexico;
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.awt.Color;
 import java.awt.Frame;
 import java.util.logging.Level;
@@ -424,9 +428,10 @@ public class principal_interface extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 793, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -623,7 +628,21 @@ public class principal_interface extends javax.swing.JFrame {
     }//GEN-LAST:event_Bot_analizarMouseExited
 
     private void Bot_generarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_generarMouseClicked
-        // TODO add your handling code here:
+          try {   
+                  
+        Sintactico sintactico =new Sintactico(new Lexico(new BufferedReader( new StringReader(Text_area.getText()))));
+        sintactico.parse();
+        String result = "";
+        for (int i = 0; i < sintactico.resultados.size(); i++) {
+               result += sintactico.resultados.get(i) + '\n';
+        }
+        this.Label_consola.setText(result);
+        
+        
+            } catch (Exception ex) {
+                    Logger.getLogger(principal_interface.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Error fatal en compilación de entrada.");
+            }
     }//GEN-LAST:event_Bot_generarMouseClicked
 
     private void Bot_generarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_generarMouseExited

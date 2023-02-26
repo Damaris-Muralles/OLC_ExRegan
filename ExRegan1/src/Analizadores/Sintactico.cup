@@ -1,0 +1,68 @@
+/* 1. Package e importaciones */
+package Analizadores; 
+import java_cup.runtime.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/* 2. Codigo para el parser, variables, metodos */
+parser code 
+{:
+    /**
+     * Método al que se llama automáticamente ante algún error sintactico.
+     **/ 
+    public void syntax_error(Symbol s){ 
+        System.out.println("Error Sintáctico en la Línea " + (s.left) +
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
+    } 
+
+    /**
+     * Método al que se llama automáticamente ante algún error sintáctico 
+     * en el que ya no es posible una recuperación de errores.
+     **/ 
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error síntactico irrecuperable en la Línea " + 
+        (s.left)+ " Columna "+s.right+". Componente " + s.value + 
+        " no reconocido."); 
+    }  
+
+    //Clases, objetos, variables, lista, etc... en sintaxis java
+    
+    //Creo una lista de tipo String llamada 'resultados', donde guardare cada uno de los resultados analizados
+    public List<String> resultados = new ArrayList<String>();
+:} 
+
+/* 3. Terminales */
+terminal String DCONJ;
+terminal String LLAVA,LLAVC,COMA,PCOMA,PP,MAYOR,GUION,ONDGUION,CDOBLE,SPORCENT;
+terminal String CPOSITIVA,CKLEENE,CONCATENAR,DISYUNCION,CBOOL;
+terminal String ALFAMAYUS,ALFAMINUS,NUMEROS,CESPECIAL,ID;
+
+
+/* 4. No Terminales */
+non terminal inicio, lenguajes,lenguaje, declaraciones;
+non terminal notacion,rangoconj,listaconj,elemento,expresiones;
+non terminal  exreg,otraexreg,lexemas,lexevaluar,otrolex;
+
+
+/* 6. Producciones */
+
+start with inicio; 
+
+
+inicio ::= LLAVA lenguajes LLAVC;
+lenguajes ::= lenguajes lenguaje | lenguaje;
+lenguaje ::= declaraciones|expresiones|SPORCENT|lexemas;
+declaraciones ::= DCONJ PP ID GUION MAYOR notacion PCOMA;
+notacion ::= rangoconj |listaconj;
+rangoconj ::=  ALFAMINUS ONDGUION ALFAMINUS | ALFAMAYUS ONDGUION ALFAMAYUS| 
+                NUMEROS ONDGUION NUMEROS | CESPECIAL ONDGUION CESPECIAL;
+listaconj ::= elemento | elemento COMA listaconj;
+elemento ::= ALFAMINUS|ALFAMAYUS|NUMEROS|CESPECIAL;
+expresiones ::= ID GUION MAYOR exreg PCOMA;
+exreg ::= exreg otraexreg |  otraexreg;
+otraexreg ::= CPOSITIVA| CKLEENE | CONCATENAR|DISYUNCION|CBOOL |ALFAMINUS|
+                ALFAMAYUS|NUMEROS|CDOBLE|CESPECIAL|LLAVA ID LLAVC;
+lexemas ::= ID PP CDOBLE lexevaluar CDOBLE PCOMA ;
+lexevaluar ::= lexevaluar otrolex |  otrolex;
+otrolex ::= CESPECIAL|ALFAMINUS|ALFAMAYUS|NUMEROS|ID;
+
