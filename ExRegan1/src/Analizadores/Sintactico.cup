@@ -3,45 +3,45 @@ package Analizadores;
 import java_cup.runtime.*;
 import java.util.ArrayList;
 import java.util.List;
+import Errores.Excepcion;
 
 /* 2. Codigo para el parser, variables, metodos */
 parser code 
 {:
-    /**
-     * Método al que se llama automáticamente ante algún error sintactico.
-     **/ 
-    public void syntax_error(Symbol s){ 
-        System.out.println("Error Sintáctico en la Línea " + (s.left) +
-        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
-    } 
+    //Lista de erress
+    public ArrayList<Excepcion> Errores = new ArrayList();
 
-    /**
-     * Método al que se llama automáticamente ante algún error sintáctico 
-     * en el que ya no es posible una recuperación de errores.
-     **/ 
+    
+    public void syntax_error(Symbol s){ 
+        Errores.add(new Excepcion("Sintáctico", "Error de sintaxis detectado. Se detectó: " + s.value, s.left + "", s.right + ""));
+    } 
+    
+   
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
-        System.out.println("Error síntactico irrecuperable en la Línea " + 
-        (s.left)+ " Columna "+s.right+". Componente " + s.value + 
-        " no reconocido."); 
+        System.out.println("Error síntactico irrecuperable en la Línea " + (s.left)+ " Columna "+s.right+". Componente " + s.value + " no reconocido."); 
+    }
+
+    public ArrayList<Excepcion> getErrores(){
+        return Errores;
     }  
 
-    //Clases, objetos, variables, lista, etc... en sintaxis java
-    
-    //Creo una lista de tipo String llamada 'resultados', donde guardare cada uno de los resultados analizados
-    public List<String> resultados = new ArrayList<String>();
+    //lista de datos
+    public List<String> conjuntos = new ArrayList<String>();
+    public List<String> expresion = new ArrayList<String>();
+    public List<String> lexema = new ArrayList<String>();
 :} 
 
 /* 3. Terminales */
 terminal String DCONJ;
 terminal String LLAVA,LLAVC,COMA,PCOMA,PP,MAYOR,GUION,ONDGUION,CDOBLE,SPORCENT;
 terminal String CPOSITIVA,CKLEENE,CONCATENAR,DISYUNCION,CBOOL;
-terminal String ALFAMAYUS,ALFAMINUS,NUMEROS,CESPECIAL,ID;
+terminal String ALFAMAYUS,ALFAMINUS,NUMEROS,CESPECIAL,IDTEXT;
 
 
 /* 4. No Terminales */
 non terminal inicio, lenguajes,lenguaje, declaraciones;
-non terminal notacion,rangoconj,listaconj,elemento,expresiones;
-non terminal  exreg,otraexreg,lexemas,lexevaluar,otrolex;
+non terminal notacion,rangoconj,listaconj,elemento,expresiones,lexemas;
+non terminal String exreg,otraexreg,lexevaluar,otrolex;
 
 
 /* 6. Producciones */
@@ -52,17 +52,51 @@ start with inicio;
 inicio ::= LLAVA lenguajes LLAVC;
 lenguajes ::= lenguajes lenguaje | lenguaje;
 lenguaje ::= declaraciones|expresiones|SPORCENT|lexemas;
-declaraciones ::= DCONJ PP ID GUION MAYOR notacion PCOMA;
-notacion ::= rangoconj |listaconj;
-rangoconj ::=  ALFAMINUS ONDGUION ALFAMINUS | ALFAMAYUS ONDGUION ALFAMAYUS| 
-                NUMEROS ONDGUION NUMEROS | CESPECIAL ONDGUION CESPECIAL;
-listaconj ::= elemento | elemento COMA listaconj;
-elemento ::= ALFAMINUS|ALFAMAYUS|NUMEROS|CESPECIAL;
-expresiones ::= ID GUION MAYOR exreg PCOMA;
-exreg ::= exreg otraexreg |  otraexreg;
-otraexreg ::= CPOSITIVA| CKLEENE | CONCATENAR|DISYUNCION|CBOOL |ALFAMINUS|
-                ALFAMAYUS|NUMEROS|CDOBLE|CESPECIAL|LLAVA ID LLAVC;
-lexemas ::= ID PP CDOBLE lexevaluar CDOBLE PCOMA ;
-lexevaluar ::= lexevaluar otrolex |  otrolex;
-otrolex ::= CESPECIAL|ALFAMINUS|ALFAMAYUS|NUMEROS|ID;
+
+declaraciones ::= DCONJ PP IDTEXT:id  GUION MAYOR notacion:conj PCOMA
+ {:
+       
+        //Inserto en la lista el resultado de la expresión evaluada
+        conjuntos.add("El nombre del conjunto: "+id );
+        conjuntos.add("El valor es: "+conj );
+
+    :};
+
+notacion ::= rangoconj:rango {:RESULT=rango;:} |listaconj:lista {:RESULT=lista;:};
+rangoconj ::=  ALFAMINUS:mi1 ONDGUION:gi1 ALFAMINUS:mi2 {:RESULT=mi1+gi1+mi2;:}| ALFAMAYUS:ma1 ONDGUION:gi2 ALFAMAYUS:ma2 {:RESULT=ma1+gi2+ma2;:}| 
+                NUMEROS:num ONDGUION:gi3 NUMEROS:num1 {:RESULT=num+gi3+num1;:}| CESPECIAL:es ONDGUION:gi4 CESPECIAL:es1 {:RESULT=es+gi4+es1;:};
+listaconj ::= elemento:elem {:RESULT=elem;:}| elemento:elem1 COMA:coma listaconj:list1 {:RESULT=elem1+coma+list1;:};
+elemento ::= ALFAMINUS:mi3{:RESULT=mi3;:}|ALFAMAYUS:ma3 {:RESULT=ma3;:}|NUMEROS:num3 {:RESULT=num3;:}|CESPECIAL:es3 {:RESULT=es3;:};
+
+expresiones ::= IDTEXT:idex GUION MAYOR exreg:reg1 PCOMA {:
+    
+        //Inserto en la lista el resultado de la expresión evaluada
+        
+        expresion.add("El nombre de la expresion: "+idex );
+        expresion.add("El expresion regular: "+reg1 );
+
+    :};
+exreg ::= exreg:reg2 otraexreg:ot {:RESULT=reg2+ot;:}|  otraexreg:ot1 {:RESULT=ot1;:};
+otraexreg ::= CPOSITIVA:mas {:RESULT=mas;:}| CKLEENE:por{:RESULT=por;:} | CONCATENAR:p {:RESULT=p;:}|
+                DISYUNCION:b{:RESULT=b;:}|CBOOL:inte {:RESULT=inte;:}|ALFAMINUS:mi4{:RESULT=mi4;:}|
+                ALFAMAYUS:ma4{:RESULT=ma4;:}|NUMEROS:num4{:RESULT=num4;:}|CDOBLE:comi{:RESULT=comi;:}|
+                CESPECIAL:es4{:RESULT=es4;:}|LLAVA:la IDTEXT:conj1 LLAVC:lc{:RESULT=la+conj1+lc;:}|LLAVA:la1{:RESULT=la1;:}|
+                LLAVC:lc1{:RESULT=lc1;:}|COMA:coma0{:RESULT=coma0;:}|PP:puntos{:RESULT=puntos;:}|
+                MAYOR:sm0{:RESULT=sm0;:}|GUION:sg{:RESULT=sg;:};
+
+lexemas ::= IDTEXT:idex1 PP CDOBLE lexevaluar:ev CDOBLE PCOMA {:
+    
+        //Inserto en la lista el resultado de la expresión evaluada
+        
+        lexema.add("El nombre de la expresion a evaluar: "+idex1 );
+        lexema.add("El lexema a evaluar: "+ev );
+
+    :};
+lexevaluar ::= lexevaluar:v1 otrolex:lex1 {:RESULT=v1+lex1;:}|  otrolex:lex2 {:RESULT=lex2;:};
+otrolex ::= CESPECIAL:es5{:RESULT=es5;:}|ALFAMINUS:mi5{:RESULT=mi5;:}|ALFAMAYUS:ma5{:RESULT=ma5;:}|
+            NUMEROS:num5{:RESULT=num5;:}|IDTEXT:idc{:RESULT=idc;:}|LLAVA:la2{:RESULT=la2;:}|
+            LLAVC:lc2{:RESULT=lc2;:}|COMA:coma1{:RESULT=coma1;:}|
+            PP:puntos1{:RESULT=puntos1;:}|MAYOR:sm1{:RESULT=sm1;:}|GUION:sg1{:RESULT=sg1;:}|
+            CPOSITIVA:mas1 {:RESULT=mas1;:}| CKLEENE:por1{:RESULT=por1;:} | CONCATENAR:p1 {:RESULT=p1;:}|
+            DISYUNCION:b1{:RESULT=b1;:}|CBOOL:inte1 {:RESULT=inte1;:};
 

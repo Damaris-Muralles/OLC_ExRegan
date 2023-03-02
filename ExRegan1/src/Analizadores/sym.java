@@ -16,11 +16,11 @@ public class sym {
   public static final int ONDGUION = 10;
   public static final int ALFAMINUS = 19;
   public static final int CDOBLE = 11;
-  public static final int ID = 22;
   public static final int CESPECIAL = 21;
   public static final int COMA = 5;
   public static final int PP = 7;
   public static final int NUMEROS = 20;
+  public static final int IDTEXT = 22;
   public static final int MAYOR = 8;
   public static final int EOF = 0;
   public static final int DCONJ = 2;
@@ -54,7 +54,7 @@ public class sym {
   "ALFAMINUS",
   "NUMEROS",
   "CESPECIAL",
-  "ID"
+  "IDTEXT"
   };
 }
 

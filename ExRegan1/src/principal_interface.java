@@ -1,22 +1,40 @@
 
 import Analizadores.Sintactico;
 import Analizadores.Lexico;
+import Errores.Excepcion;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Frame;
+import java.awt.Image;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 
 public class principal_interface extends javax.swing.JFrame {
    java.io.File archivo;
+   javax.swing.ImageIcon[] img;
+   int visualizar = 0;
+   int mayor;
+   Icon icon;
    int xmouse, ymouse;
+
     public principal_interface() {
         initComponents();
         this.setLocationRelativeTo(null);
+        carpetas();
+        
     }
 
    
@@ -36,22 +54,24 @@ public class principal_interface extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         Text_area = new javax.swing.JTextArea();
         Panel_consola = new javax.swing.JPanel();
-        Label_consola = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        text_consola = new javax.swing.JTextArea();
         Panel_archivos = new javax.swing.JPanel();
-        Panel_arbol = new javax.swing.JPanel();
-        todos_arboles = new javax.swing.JLabel();
-        Panel_sig = new javax.swing.JPanel();
-        todos_siguiente = new javax.swing.JLabel();
-        Panel_trans = new javax.swing.JPanel();
-        todos_transicion = new javax.swing.JLabel();
-        Panel_automata = new javax.swing.JPanel();
-        todos_automatas = new javax.swing.JLabel();
         Label_arbol = new javax.swing.JLabel();
         Label_siguiente = new javax.swing.JLabel();
         Label_automata = new javax.swing.JLabel();
         Label_transicion = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        a_automata = new javax.swing.JTextArea();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        a_siguiente = new javax.swing.JTextArea();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        a_transacc = new javax.swing.JTextArea();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        a_arboles = new javax.swing.JTextArea();
         Panel_visualizador = new javax.swing.JPanel();
-        Label_visualizador = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lab_img = new javax.swing.JTextPane();
         Box_opciones = new javax.swing.JComboBox<>();
         Bot_analizar = new javax.swing.JLabel();
         Bot_generar = new javax.swing.JLabel();
@@ -202,8 +222,9 @@ public class principal_interface extends javax.swing.JFrame {
         Text_area.setForeground(new java.awt.Color(94, 231, 205));
         Text_area.setLineWrap(true);
         Text_area.setRows(5);
-        Text_area.setText("Texto de prueba....");
         Text_area.setBorder(null);
+        Text_area.setCaretColor(new java.awt.Color(94, 209, 211));
+        Text_area.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         Text_area.setDisabledTextColor(new java.awt.Color(51, 255, 102));
         jScrollPane5.setViewportView(Text_area);
 
@@ -225,74 +246,23 @@ public class principal_interface extends javax.swing.JFrame {
         Panel_consola.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Panel_consola.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Label_consola.setFont(new java.awt.Font("Roboto", 3, 14)); // NOI18N
-        Label_consola.setForeground(new java.awt.Color(0, 204, 204));
-        Label_consola.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        Label_consola.setText("La expresión: <lexema de entrada> es válida con la expresión Regular <Nombre de la Expresión Regular>");
-        Label_consola.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        Label_consola.setAutoscrolls(true);
-        Panel_consola.add(Label_consola, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 970, 90));
+        text_consola.setEditable(false);
+        text_consola.setBackground(new java.awt.Color(23, 9, 32));
+        text_consola.setColumns(20);
+        text_consola.setFont(new java.awt.Font("Roboto", 3, 14)); // NOI18N
+        text_consola.setForeground(new java.awt.Color(94, 231, 205));
+        text_consola.setLineWrap(true);
+        text_consola.setRows(5);
+        text_consola.setText("La expresión: <lexema de entrada> es válida con la expresión Regular <Nombre de la Expresión Regular>");
+        text_consola.setBorder(null);
+        jScrollPane1.setViewportView(text_consola);
+
+        Panel_consola.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 110));
 
         jPanel1.add(Panel_consola, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 600, 990, 110));
 
         Panel_archivos.setBackground(new java.awt.Color(23, 9, 32));
         Panel_archivos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        Panel_arbol.setBackground(new java.awt.Color(100, 91, 110));
-        Panel_arbol.setAutoscrolls(true);
-        Panel_arbol.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Panel_arbol.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        todos_arboles.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
-        todos_arboles.setForeground(new java.awt.Color(255, 255, 255));
-        todos_arboles.setText("Archivo 1");
-        todos_arboles.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        todos_arboles.setAutoscrolls(true);
-        Panel_arbol.add(todos_arboles, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 70));
-
-        Panel_archivos.add(Panel_arbol, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 180, 90));
-
-        Panel_sig.setBackground(new java.awt.Color(100, 91, 110));
-        Panel_sig.setAutoscrolls(true);
-        Panel_sig.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Panel_sig.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        todos_siguiente.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
-        todos_siguiente.setForeground(new java.awt.Color(255, 255, 255));
-        todos_siguiente.setText("Archivo 1");
-        todos_siguiente.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        todos_siguiente.setAutoscrolls(true);
-        Panel_sig.add(todos_siguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 70));
-
-        Panel_archivos.add(Panel_sig, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 180, 90));
-
-        Panel_trans.setBackground(new java.awt.Color(100, 91, 110));
-        Panel_trans.setAutoscrolls(true);
-        Panel_trans.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Panel_trans.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        todos_transicion.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
-        todos_transicion.setForeground(new java.awt.Color(255, 255, 255));
-        todos_transicion.setText("Archivo 1");
-        todos_transicion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        todos_transicion.setAutoscrolls(true);
-        Panel_trans.add(todos_transicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 70));
-
-        Panel_archivos.add(Panel_trans, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 180, 90));
-
-        Panel_automata.setBackground(new java.awt.Color(100, 91, 110));
-        Panel_automata.setAutoscrolls(true);
-        Panel_automata.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Panel_automata.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        todos_automatas.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
-        todos_automatas.setForeground(new java.awt.Color(255, 255, 255));
-        todos_automatas.setText("Archvo 1");
-        todos_automatas.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        todos_automatas.setAutoscrolls(true);
-        Panel_automata.add(todos_automatas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 70));
-
-        Panel_archivos.add(Panel_automata, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 180, 90));
 
         Label_arbol.setFont(new java.awt.Font("Roboto Light", 3, 14)); // NOI18N
         Label_arbol.setForeground(new java.awt.Color(94, 231, 205));
@@ -318,22 +288,95 @@ public class principal_interface extends javax.swing.JFrame {
         Label_transicion.setText("Tabla de transiciones");
         Panel_archivos.add(Label_transicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 180, 30));
 
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane2.setOpaque(false);
+
+        a_automata.setEditable(false);
+        a_automata.setBackground(new java.awt.Color(100, 91, 110));
+        a_automata.setColumns(14);
+        a_automata.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        a_automata.setForeground(new java.awt.Color(255, 255, 255));
+        a_automata.setRows(4);
+        a_automata.setCaretColor(new java.awt.Color(100, 91, 110));
+        jScrollPane2.setViewportView(a_automata);
+
+        Panel_archivos.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 180, 90));
+
+        jScrollPane9.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane9.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane9.setOpaque(false);
+
+        a_siguiente.setEditable(false);
+        a_siguiente.setBackground(new java.awt.Color(100, 91, 110));
+        a_siguiente.setColumns(14);
+        a_siguiente.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        a_siguiente.setForeground(new java.awt.Color(255, 255, 255));
+        a_siguiente.setRows(4);
+        a_siguiente.setCaretColor(new java.awt.Color(100, 91, 110));
+        jScrollPane9.setViewportView(a_siguiente);
+
+        Panel_archivos.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 180, 90));
+
+        jScrollPane10.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane10.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane10.setOpaque(false);
+
+        a_transacc.setEditable(false);
+        a_transacc.setBackground(new java.awt.Color(100, 91, 110));
+        a_transacc.setColumns(14);
+        a_transacc.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        a_transacc.setForeground(new java.awt.Color(255, 255, 255));
+        a_transacc.setRows(4);
+        a_transacc.setCaretColor(new java.awt.Color(100, 91, 110));
+        jScrollPane10.setViewportView(a_transacc);
+
+        Panel_archivos.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 180, 90));
+
+        jScrollPane11.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane11.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane11.setOpaque(false);
+
+        a_arboles.setEditable(false);
+        a_arboles.setBackground(new java.awt.Color(100, 91, 110));
+        a_arboles.setColumns(14);
+        a_arboles.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        a_arboles.setForeground(new java.awt.Color(255, 255, 255));
+        a_arboles.setRows(4);
+        a_arboles.setCaretColor(new java.awt.Color(100, 91, 110));
+        jScrollPane11.setViewportView(a_arboles);
+
+        Panel_archivos.add(jScrollPane11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 180, 90));
+
         jPanel1.add(Panel_archivos, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 90, 180, 480));
 
         Panel_visualizador.setBackground(new java.awt.Color(23, 9, 32));
         Panel_visualizador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Label_visualizador.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        Panel_visualizador.add(Label_visualizador, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 410));
+        jScrollPane3.setFocusable(false);
+        jScrollPane3.setOpaque(false);
+
+        lab_img.setEditable(false);
+        lab_img.setBackground(new java.awt.Color(23, 9, 32));
+        lab_img.setBorder(null);
+        lab_img.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane3.setViewportView(lab_img);
+
+        Panel_visualizador.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 410));
 
         jPanel1.add(Panel_visualizador, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 120, 380, 410));
 
         Box_opciones.setBackground(new java.awt.Color(0, 153, 153));
         Box_opciones.setFont(new java.awt.Font("Roboto Medium", 2, 12)); // NOI18N
         Box_opciones.setForeground(new java.awt.Color(19, 11, 28));
-        Box_opciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ver imagenes", "Árboles", "Siguientes", "Transiciones", "Automatas" }));
+        Box_opciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ver imagenes", "Árboles", "Siguientes", "Transiciones", "Automatas AFD", "Automatas AFND" }));
         Box_opciones.setBorder(null);
         Box_opciones.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Box_opciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Box_opcionesActionPerformed(evt);
+            }
+        });
         jPanel1.add(Box_opciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 90, 380, 30));
 
         Bot_analizar.setBackground(new java.awt.Color(94, 231, 205));
@@ -428,17 +471,34 @@ public class principal_interface extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 793, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void carpetas(){
+        a_arboles.setText(mostrararchivos("./ARBOLES_202100953"));
+        a_siguiente.setText(mostrararchivos("./SIGUIENTES_202100953"));
+        a_transacc.setText(mostrararchivos("./TRANSICIONES_202100953"));
+        String automata = mostrararchivos("./AFD_202100953")+ mostrararchivos("./AFND_202100953");
+        a_automata.setText(automata);
+    }
+    public  String mostrararchivos(String ruta){
+        String[] contenido = new File(ruta).list();
+        Arrays.sort(contenido);
+        String archivos = "";
+        for (String archivo:contenido){
+            archivos+=archivo+"\n";
+        }
+       return archivos;
+    }
+    
     private void T_cerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_T_cerrarMouseClicked
         System.exit(0);
+        
     }//GEN-LAST:event_T_cerrarMouseClicked
 
     private void T_cerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_T_cerrarMouseEntered
@@ -522,7 +582,6 @@ public class principal_interface extends javax.swing.JFrame {
 
     private void Bot_guardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_guardarMouseClicked
        
-       
        try {
            String contenido = Text_area.getText();
            
@@ -582,6 +641,7 @@ public class principal_interface extends javax.swing.JFrame {
                         javax.swing.JOptionPane.showMessageDialog(null,"No se ha podido guardar el archivo,\nPorfavor, coloque la extension del archivo y vuelva a intentarlo",
                          "Guardar como",javax.swing.JOptionPane.WARNING_MESSAGE);
                         this.Bot_guardar_cMouseClicked(evt);
+                        
                     }else{
                           javax.swing.JOptionPane.showMessageDialog(null,"Se guardo el archivo correctamente",
                              "Guardar como",javax.swing.JOptionPane.INFORMATION_MESSAGE);
@@ -628,21 +688,49 @@ public class principal_interface extends javax.swing.JFrame {
     }//GEN-LAST:event_Bot_analizarMouseExited
 
     private void Bot_generarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_generarMouseClicked
-          try {   
-                  
-        Sintactico sintactico =new Sintactico(new Lexico(new BufferedReader( new StringReader(Text_area.getText()))));
-        sintactico.parse();
-        String result = "";
-        for (int i = 0; i < sintactico.resultados.size(); i++) {
-               result += sintactico.resultados.get(i) + '\n';
-        }
-        this.Label_consola.setText(result);
-        
-        
-            } catch (Exception ex) {
-                    Logger.getLogger(principal_interface.class.getName()).log(Level.SEVERE, null, ex);
+       
+        Analizadores.Lexico scanner;
+        Analizadores.Sintactico parse;
+        ArrayList<Excepcion> errores = new ArrayList();
+
+        try {
+            
+                scanner = new Lexico(new BufferedReader(new StringReader(Text_area.getText())));
+                parse = new Sintactico(scanner);
+                parse.parse();
+                errores.addAll(scanner.Errores);
+                errores.addAll(parse.getErrores());
+                
+                /* se llaman metodos para generar errores, arboles, tabla siguientes
+                transisiones, afd, afnd y recargar carpetas
+                */
+                if (errores.size()!=0){
+                   generarHTML(errores, 1); 
+                }
+                
+                carpetas();
+
+                String result = "";
+                for (int i = 0; i < parse.conjuntos.size(); i++) {
+                   result += parse.conjuntos.get(i) + "\n";
+                }
+                  for (int i = 0; i < parse.expresion.size(); i++) {
+                   result += parse.expresion.get(i) + "\n";
+                 }
+                 for (int i = 0; i < parse.lexema.size(); i++) {
+                   result += parse.lexema.get(i) + "\n";
+                 }
+                this.text_consola.setText(result);
+          
+                
+        } catch (Exception ex) {
+           Logger.getLogger(principal_interface.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println("Error fatal en compilación de entrada.");
-            }
+        }   
+        
+        
+        
+       
     }//GEN-LAST:event_Bot_generarMouseClicked
 
     private void Bot_generarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_generarMouseExited
@@ -657,7 +745,17 @@ public class principal_interface extends javax.swing.JFrame {
     }//GEN-LAST:event_Bot_generarMouseEntered
 
     private void Bot_anteriorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_anteriorMouseClicked
-        // TODO add your handling code here:
+        
+        if (visualizar>0){
+            visualizar-=1;
+        }
+        if (img !=null){
+        icon = new ImageIcon(img[visualizar].getImage());
+        lab_img.setText("");
+        lab_img.insertIcon(icon);
+        
+        lab_img.repaint();
+        }
     }//GEN-LAST:event_Bot_anteriorMouseClicked
 
     private void Bot_anteriorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_anteriorMouseEntered
@@ -669,7 +767,17 @@ public class principal_interface extends javax.swing.JFrame {
     }//GEN-LAST:event_Bot_anteriorMouseExited
 
     private void Bot_siguienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_siguienteMouseClicked
-        // TODO add your handling code here:
+        
+        if (visualizar<mayor-1){
+            
+            visualizar+=1;
+        }
+        if (img !=null){
+        icon = new ImageIcon(img[visualizar].getImage());
+        lab_img.setText("");
+        lab_img.insertIcon(icon);
+        lab_img.repaint();
+        }
     }//GEN-LAST:event_Bot_siguienteMouseClicked
 
     private void Bot_siguienteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_siguienteMouseEntered
@@ -680,6 +788,325 @@ public class principal_interface extends javax.swing.JFrame {
         Bot_siguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icon_sig.png")));
     }//GEN-LAST:event_Bot_siguienteMouseExited
 
+    private void Box_opcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Box_opcionesActionPerformed
+        File carpeta;
+        File[] lista;
+        java.io.FileFilter archivosFilter = new java.io.FileFilter() {
+            //Sobreescribimos el método
+            public boolean accept(File file) {
+                if (file.getName().endsWith(".png")) {
+                    return true;
+                }
+                return false;
+            }
+        };
+        if (Box_opciones.getSelectedIndex()>0){
+            if (Box_opciones.getSelectedIndex()==1){
+                carpeta = new File("./ARBOLES_202100953");
+                 visualizar=0;
+                lista = carpeta.listFiles(archivosFilter);
+                mayor = lista.length;
+                
+                if (lista.length>0){
+                    img= new javax.swing.ImageIcon[lista.length];
+                    cargarimagen(lista); 
+                    icon = new ImageIcon(img[visualizar].getImage());
+                    lab_img.setText("");
+                    lab_img.insertIcon(icon);
+                    lab_img.repaint();
+                }else{
+                    lab_img.setText("");
+                     borrarimagen();
+                }
+            }
+             if (Box_opciones.getSelectedIndex()==2){
+                carpeta = new File("./SIGUIENTES_202100953");
+               
+                lista = carpeta.listFiles(archivosFilter);
+                 mayor = lista.length;
+                 visualizar=0;
+                if (lista.length>0){
+                    img= new javax.swing.ImageIcon[lista.length];
+                    cargarimagen(lista); 
+                    icon = new ImageIcon(img[visualizar].getImage());
+                    lab_img.setText("");
+                    lab_img.insertIcon(icon);
+                    lab_img.repaint();
+                }else{
+                    lab_img.setText("");
+                     borrarimagen();
+                }
+            }
+              if (Box_opciones.getSelectedIndex()==3){
+                carpeta = new File("./TRANSICIONES_202100953");
+                visualizar=0;
+                lista = carpeta.listFiles(archivosFilter);
+                 mayor = lista.length;
+                if (lista.length>0){
+                    img= new javax.swing.ImageIcon[lista.length];
+                    cargarimagen(lista); 
+                    icon = new ImageIcon(img[visualizar].getImage());
+                     lab_img.setText("");
+                    lab_img.insertIcon(icon);
+                    lab_img.repaint();
+                }else{
+                    lab_img.setText("");
+                     borrarimagen();
+                }
+            }
+               if (Box_opciones.getSelectedIndex()==4){
+                carpeta = new File("./AFD_202100953");
+                visualizar=0;
+                lista = carpeta.listFiles(archivosFilter);
+                 mayor = lista.length;
+                if (lista.length>0){
+                    img= new javax.swing.ImageIcon[lista.length];
+                    cargarimagen(lista); 
+                    icon = new ImageIcon(img[visualizar].getImage());
+                     lab_img.setText("");
+                    lab_img.insertIcon(icon);
+                    lab_img.repaint();
+                }else{
+                    lab_img.setText("");
+                     borrarimagen();
+                }
+            }
+               if (Box_opciones.getSelectedIndex()==5){
+                carpeta = new File("./AFND_202100953");
+                visualizar=0;
+                lista = carpeta.listFiles(archivosFilter);
+                mayor = lista.length;
+                if (lista.length>0){
+                    img= new javax.swing.ImageIcon[lista.length];
+                    cargarimagen(lista); 
+                    icon = new ImageIcon(img[visualizar].getImage());
+                     lab_img.setText("");
+                    lab_img.insertIcon(icon);
+                    lab_img.repaint();
+                }else{
+                    lab_img.setText("");
+                     borrarimagen();
+                }
+            }
+        }else{
+              
+              lab_img.setText("");
+              borrarimagen();
+        }
+    }//GEN-LAST:event_Box_opcionesActionPerformed
+
+     public void borrarimagen(){
+
+        try{
+            if (img !=null){
+            for (int i=0;i<img.length;i++){
+            img[i]= new javax.swing.ImageIcon("");
+             }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+       
+        
+    }
+    public void cargarimagen(File[] listaimag){
+        int cont=0;
+        try{
+            if (img !=null){
+            for (File imagen:listaimag){
+            img[cont]= new javax.swing.ImageIcon(imagen.getAbsolutePath());
+            cont+=1;
+             }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+       
+        
+    }
+    
+     public static void generarHTML(ArrayList<Excepcion> errores, Integer opcion) throws IOException {
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        String report ="";
+        if (opcion == 1){
+            report ="lenguaje";
+        }else{
+            report ="lexema";
+        }
+        try {
+            
+            String path = "./ERRORES_202100953/Reporte_errores_"+report+".html";
+            fichero = new FileWriter(path);
+            pw = new PrintWriter(fichero);
+            
+            //Comenzamos a escribir el html
+            String contenido ="<!doctype html>\n" +
+"<html lang=\"es\">\n" +
+"\n" +
+"<head>\n" +
+"\n" +
+"  <meta charset=\"UTF-8\">\n" +
+"  <title> REPORTE DE ERRORES </title>\n" +
+"  \n" +
+"  <style>\n" +
+"    * {\n" +
+"      margin: 0;\n" +
+"      padding: 0;\n" +
+"      box-sizing: border-box;\n" +
+"      }\n" +
+"\n" +
+"      body{\n" +
+"      font-family: Arial;\n" +
+"      background: #f2f2f2;\n" +
+"      }\n" +
+"\n" +
+"      .contenedor{\n" +
+"      padding: 60px 0;\n" +
+"      width: 95%\n" +
+"      max-width: 1000px\n" +
+"      margin: auto;\n" +
+"      overflow: hidden;\n" +
+"      }    \n" +
+"\n" +
+"      .titulo{\n" +
+"      color: #191654;\n" +
+"      font-size: 50px;\n" +
+"      text-align: center;\n" +
+"      margin-bottom: 50px;\n" +
+"      } \n" +
+"  \n" +
+"      header{\n" +
+"      width:100%;\n" +
+"      height: 250px;\n" +
+"      background: hsla(168,53%,51%); \n" +
+"      background: -webkit-linear-gradient(to right, hsla(242,58%,20%), hsla(168,53%,51%));  /* Chrome 10      -25, Safari 5.1-6 */\n" +
+"      background: linear-gradient(to right, hsla(242,58%,20%),hsla(168,53%,51%)), url(imagen/portada.jpg); /* W3C, IE 10+/ Edge,Firefox 16+, Chrome 26+,                      Opera 12+, Safari 7+ */\n" +
+"      background-size: cover;\n" +
+"      background-attachment: fixed;\n" +
+"      position: relative;\n" +
+"      }  \n" +
+"     \n" +
+"      header .textos-header{\n" +
+"      display: flex;\n" +
+"      height: 430px;\n" +
+"      width: 100%;\n" +
+"      align-items: center;\n" +
+"      flex-direction: column;\n" +
+"      text-align: center;\n" +
+"      }\n" +
+"      \n" +
+"      .textos-header h1 {\n" +
+"         font-size: 50px;\n" +
+"         color: white;\n" +
+"      }\n" +
+"\n" +
+"      .textos-header h2 {\n" +
+"         font-size: 30px;\n" +
+"         font-weight:300;\n" +
+"         color: white;\n" +
+"      }\n" +
+"\n" +
+"      .wave{\n" +
+"      position: absolute;\n" +
+"      bottom: 0;\n" +
+"      width: 100%;\n" +
+"      }\n" +
+"\n" +
+"      #main-container{\n" +
+"      margin:60px auto;\n" +
+"      width:900px;\n" +
+"      } \n" +
+"  \n" +
+"      table{\n" +
+"      background-color: white;\n" +
+"      border-collapse: collapse;\n" +
+"      width: 100%;\n" +
+"      }\n" +
+"      \n" +
+"      th, td{\n" +
+"      padding: 15px;\n" +
+"      }\n" +
+"\n" +
+"      thead{\n" +
+"      background-color: #001b48;\n" +
+"      border-bottom: solid 5px #f2f2f2;\n" +
+"      color: white;\n" +
+"      }\n" +
+"     \n" +
+"     tr:nth-child(even){\n" +
+"     background-color: #dde8f0;\n" +
+"     }\n" +
+" \n" +
+"     tr:hover td{\n" +
+"     background-color: #004581;\n" +
+"     color: white;\n" +
+"     }  \n" +
+"\n" +
+"  </style>\n" +
+"\n" +
+"</head>\n" +
+"\n" +
+"<body> \n" +
+"\n" +
+" <header>\n" +
+"    <section class=\"textos-header\">\n" +
+"       <br>\n" +
+"       <br>\n" +
+"       <h1> REPORTE DE ERRORES </h1>\n" +
+"       <div class=\"wave\" style=\"height: 150px; overflow: hidden;\" ><svg viewBox=\"0 0 500 150\" preserveAspectRatio=\"none\" style=\"height: 100%; width: 100%;\"><path            d=\"M-11.00,130.77 C207.38,132.73 264.95,80.44 499.15,126.81 L500.00,150.00 L0.00,150.00 Z\" style=\"stroke: none; fill: #f2f2f2;\"></path></svg></div>\n" +
+"    </section>\n" +
+"  </header>\n" +
+"<br>\n" +
+"  <main>\n" +
+"    <section>\n" +
+"      <div class=\"contenedor errores\">\n" +
+"                  <h2 class=\"titulo\"> Errores de "+report+"</h2>\n" +
+"        <div class=\"errores\" id=\"main-container\">\n" +
+"          <table>\n" +
+"            <thead>\n" +
+"               <tr>\n" +
+"                  <th>Error</th><th>Descripción</th><th>Fila</th><th>Columna</th>\n" +
+"               </tr>\n" +
+"            </thead>";
+            
+           
+
+            for (Excepcion err : errores) {
+                
+                contenido+="            <tr>   \n" +
+"                  <td><b>" + err.tipo + "</b></td><td>" + err.descripcion + "</td><td>" + err.linea + "</td><td>" + err.columna + "</td>\n" +
+"            </tr>";
+                
+            }
+            
+            contenido +="          </table>\n" +
+"        </div>\n" +
+"      </div>\n" +
+"    </section>\n" +
+"  </main>\n" +
+"\n" +
+"</body>\n" +
+"\n" +
+"</html>";
+
+
+            pw.println(contenido);
+            Desktop.getDesktop().open(new File(path));
+            
+            
+        } catch (Exception e) {
+        } finally {
+            if (null != fichero) {
+                fichero.close();
+            }
+        }
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -738,28 +1165,30 @@ public class principal_interface extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> Box_opciones;
     private javax.swing.JLabel Label_arbol;
     private javax.swing.JLabel Label_automata;
-    private javax.swing.JLabel Label_consola;
     private javax.swing.JLabel Label_siguiente;
     private javax.swing.JLabel Label_transicion;
-    private javax.swing.JLabel Label_visualizador;
     private javax.swing.JPanel Menu;
-    private javax.swing.JPanel Panel_arbol;
     private javax.swing.JPanel Panel_archivos;
-    private javax.swing.JPanel Panel_automata;
     private javax.swing.JPanel Panel_consola;
-    private javax.swing.JPanel Panel_sig;
     private javax.swing.JPanel Panel_text;
-    private javax.swing.JPanel Panel_trans;
     private javax.swing.JPanel Panel_visualizador;
     private javax.swing.JLabel T_cerrar;
     private javax.swing.JLabel T_min;
     private javax.swing.JTextArea Text_area;
     private javax.swing.JLabel Title;
+    private javax.swing.JTextArea a_arboles;
+    private javax.swing.JTextArea a_automata;
+    private javax.swing.JTextArea a_siguiente;
+    private javax.swing.JTextArea a_transacc;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JLabel todos_arboles;
-    private javax.swing.JLabel todos_automatas;
-    private javax.swing.JLabel todos_siguiente;
-    private javax.swing.JLabel todos_transicion;
+    private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JTextPane lab_img;
+    private javax.swing.JTextArea text_consola;
     // End of variables declaration//GEN-END:variables
 }
