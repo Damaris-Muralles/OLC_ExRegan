@@ -33,7 +33,8 @@ import java.util.ArrayList;
 //Expresiones regulares
 BLANCOS=[\r\t\ ]+
 
-D=[0-9]
+D=[0-9]+
+DD=[0-9]+("."[  |0-9]+)?
 LMAYUS =[A-Z]
 LMINUS =[a-z]
 CODEANSI = [\ -/:-@\[-`{-}]
@@ -44,7 +45,7 @@ LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 EntradaM = \t|[^\t]
 comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
-comentariomultiple    = "<!"{EntradaM}+"!>"
+comentariomultiple    = [<][!][^\!\>]*[!][>]
 
 %%
 /* 3. Reglas Semanticas */
@@ -71,7 +72,7 @@ comentariomultiple    = "<!"{EntradaM}+"!>"
 <YYINITIAL> {comentariosimple} {System.out.println("Comentario: "+yytext()); }
 <YYINITIAL> {comentariomultiple} {System.out.println("Comentario multilinea: "+yytext()); }
 <YYINITIAL> {D} {System.out.println("Reconocio "+yytext()+" numeros"); return new Symbol(sym.NUMEROS,yyline,yychar, yytext());} 
-
+<YYINITIAL> {DD} {System.out.println("Reconocio "+yytext()+" numeros decimales"); return new Symbol(sym.DECIMAL,yyline,yychar, yytext());}
 <YYINITIAL> {LMAYUS} {System.out.println("Reconocio "+yytext()+" letras mayusculas"); return new Symbol(sym.ALFAMAYUS,yyline,yychar, yytext());} 
 <YYINITIAL> {CODEANSI} {System.out.println("Reconocio caracter especial: "+yytext()); return new Symbol(sym.CESPECIAL,yyline,yychar, yytext());} 
 <YYINITIAL> {LMINUS} {System.out.println("Reconocio "+yytext()+" letras minusculas"); return new Symbol(sym.ALFAMINUS,yyline,yychar, yytext());} 

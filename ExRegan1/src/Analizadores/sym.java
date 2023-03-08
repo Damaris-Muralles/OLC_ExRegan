@@ -14,6 +14,7 @@ public class sym {
   public static final int GUION = 9;
   public static final int CBOOL = 17;
   public static final int ONDGUION = 10;
+  public static final int DECIMAL = 23;
   public static final int ALFAMINUS = 19;
   public static final int CDOBLE = 11;
   public static final int CESPECIAL = 21;
@@ -54,7 +55,8 @@ public class sym {
   "ALFAMINUS",
   "NUMEROS",
   "CESPECIAL",
-  "IDTEXT"
+  "IDTEXT",
+  "DECIMAL"
   };
 }
 

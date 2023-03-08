@@ -29,13 +29,14 @@ parser code
     public List<String> conjuntos = new ArrayList<String>();
     public List<String> expresion = new ArrayList<String>();
     public List<String> lexema = new ArrayList<String>();
+    public List<String> hojas = new ArrayList<String>();
 :} 
 
 /* 3. Terminales */
 terminal String DCONJ;
 terminal String LLAVA,LLAVC,COMA,PCOMA,PP,MAYOR,GUION,ONDGUION,CDOBLE,SPORCENT;
 terminal String CPOSITIVA,CKLEENE,CONCATENAR,DISYUNCION,CBOOL;
-terminal String ALFAMAYUS,ALFAMINUS,NUMEROS,CESPECIAL,IDTEXT;
+terminal String ALFAMAYUS,ALFAMINUS,NUMEROS,CESPECIAL,IDTEXT,DECIMAL;
 
 
 /* 4. No Terminales */
@@ -57,8 +58,8 @@ declaraciones ::= DCONJ PP IDTEXT:id  GUION MAYOR notacion:conj PCOMA
  {:
        
         //Inserto en la lista el resultado de la expresión evaluada
-        conjuntos.add("El nombre del conjunto: "+id );
-        conjuntos.add("El valor es: "+conj );
+        conjuntos.add(id);
+        conjuntos.add((String)conj);
 
     :};
 
@@ -72,31 +73,28 @@ expresiones ::= IDTEXT:idex GUION MAYOR exreg:reg1 PCOMA {:
     
         //Inserto en la lista el resultado de la expresión evaluada
         
-        expresion.add("El nombre de la expresion: "+idex );
-        expresion.add("El expresion regular: "+reg1 );
+        expresion.add(idex);
+        expresion.add(reg1);
 
     :};
 exreg ::= exreg:reg2 otraexreg:ot {:RESULT=reg2+ot;:}|  otraexreg:ot1 {:RESULT=ot1;:};
 otraexreg ::= CPOSITIVA:mas {:RESULT=mas;:}| CKLEENE:por{:RESULT=por;:} | CONCATENAR:p {:RESULT=p;:}|
                 DISYUNCION:b{:RESULT=b;:}|CBOOL:inte {:RESULT=inte;:}|ALFAMINUS:mi4{:RESULT=mi4;:}|
                 ALFAMAYUS:ma4{:RESULT=ma4;:}|NUMEROS:num4{:RESULT=num4;:}|CDOBLE:comi{:RESULT=comi;:}|
-                CESPECIAL:es4{:RESULT=es4;:}|LLAVA:la IDTEXT:conj1 LLAVC:lc{:RESULT=la+conj1+lc;:}|LLAVA:la1{:RESULT=la1;:}|
-                LLAVC:lc1{:RESULT=lc1;:}|COMA:coma0{:RESULT=coma0;:}|PP:puntos{:RESULT=puntos;:}|
-                MAYOR:sm0{:RESULT=sm0;:}|GUION:sg{:RESULT=sg;:};
+                CESPECIAL:es4{:RESULT=es4;:}|LLAVA:la IDTEXT:conj1 LLAVC:lc{:RESULT=la+conj1+lc;:}|
+                COMA:coma0{:RESULT=coma0;:}|PP:puntos{:RESULT=puntos;:}|
+                MAYOR:sm0{:RESULT=sm0;:}|GUION:sg{:RESULT=sg;:} |DECIMAL:dec{:RESULT=dec;:};
 
 lexemas ::= IDTEXT:idex1 PP CDOBLE lexevaluar:ev CDOBLE PCOMA {:
     
         //Inserto en la lista el resultado de la expresión evaluada
         
-        lexema.add("El nombre de la expresion a evaluar: "+idex1 );
-        lexema.add("El lexema a evaluar: "+ev );
+        lexema.add(idex1 );
+        lexema.add(ev);
 
     :};
 lexevaluar ::= lexevaluar:v1 otrolex:lex1 {:RESULT=v1+lex1;:}|  otrolex:lex2 {:RESULT=lex2;:};
 otrolex ::= CESPECIAL:es5{:RESULT=es5;:}|ALFAMINUS:mi5{:RESULT=mi5;:}|ALFAMAYUS:ma5{:RESULT=ma5;:}|
-            NUMEROS:num5{:RESULT=num5;:}|IDTEXT:idc{:RESULT=idc;:}|LLAVA:la2{:RESULT=la2;:}|
-            LLAVC:lc2{:RESULT=lc2;:}|COMA:coma1{:RESULT=coma1;:}|
-            PP:puntos1{:RESULT=puntos1;:}|MAYOR:sm1{:RESULT=sm1;:}|GUION:sg1{:RESULT=sg1;:}|
-            CPOSITIVA:mas1 {:RESULT=mas1;:}| CKLEENE:por1{:RESULT=por1;:} | CONCATENAR:p1 {:RESULT=p1;:}|
-            DISYUNCION:b1{:RESULT=b1;:}|CBOOL:inte1 {:RESULT=inte1;:};
+            NUMEROS:num5{:RESULT=num5;:}|IDTEXT:idc{:RESULT=idc;:}|COMA:coma1{:RESULT=coma1;:}|
+            PP:puntos1{:RESULT=puntos1;:}|MAYOR:sm1{:RESULT=sm1;:}|GUION:sg1{:RESULT=sg1;:}|DECIMAL:dec1{:RESULT=dec1;:};
 

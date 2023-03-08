@@ -1,0 +1,19 @@
+digraph finite_state_machine {
+    fontcolor="White"
+    bgcolor="#170920"
+	fontname="Helvetica,Arial,sans-serif"
+	label="EXP: decimales"
+	node [fontname="Helvetica,Arial,sans-serif" fontcolor="white"  color="#5ee7cd"]
+	rankdir=LR;
+	node [shape = doublecircle]; X0 X7 [color="red"];
+    node [shape = circle];
+	X0 -> X1 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X1 -> X2 [label = "digito" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X2 -> X1 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X2 -> X3 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X3 -> X4 [label = "\".\"" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X4 -> X5 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X5 -> X6 [label = "digito" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X6 -> X5 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X6 -> X7 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+}

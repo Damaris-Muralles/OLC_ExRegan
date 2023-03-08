@@ -2,20 +2,27 @@
 import Analizadores.Sintactico;
 import Analizadores.Lexico;
 import Errores.Excepcion;
+import arbol_afd.Arbol;
+import arbol_afd.TablaSiguientes;
+import arbol_afd.TablaTransiciones;
+import arbol_afd.nodo;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Frame;
-import java.awt.Image;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
@@ -25,6 +32,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class principal_interface extends javax.swing.JFrame {
    java.io.File archivo;
    javax.swing.ImageIcon[] img;
+   public List<String> conjuntos = new ArrayList<String>();
+   public List<String> expresion = new ArrayList<String>();
+   public List<String> lexema = new ArrayList<String>();
    int visualizar = 0;
    int mayor;
    Icon icon;
@@ -480,12 +490,13 @@ public class principal_interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void carpetas(){
-        a_arboles.setText(mostrararchivos("./ARBOLES_202100953"));
-        a_siguiente.setText(mostrararchivos("./SIGUIENTES_202100953"));
-        a_transacc.setText(mostrararchivos("./TRANSICIONES_202100953"));
-        String automata = mostrararchivos("./AFD_202100953")+ mostrararchivos("./AFND_202100953");
+        a_arboles.setText(mostrararchivos("./REPORTES/ARBOLES_202100953"));
+        a_siguiente.setText(mostrararchivos("./REPORTES/SIGUIENTES_202100953"));
+        a_transacc.setText(mostrararchivos("./REPORTES/TRANSICIONES_202100953"));
+        String automata = mostrararchivos("./REPORTES/AFD_202100953")+ mostrararchivos("./REPORTES/AFND_202100953");
         a_automata.setText(automata);
     }
+   
     public  String mostrararchivos(String ruta){
         String[] contenido = new File(ruta).list();
         Arrays.sort(contenido);
@@ -497,8 +508,7 @@ public class principal_interface extends javax.swing.JFrame {
     }
     
     private void T_cerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_T_cerrarMouseClicked
-        System.exit(0);
-        
+        System.exit(0); 
     }//GEN-LAST:event_T_cerrarMouseClicked
 
     private void T_cerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_T_cerrarMouseEntered
@@ -674,21 +684,54 @@ public class principal_interface extends javax.swing.JFrame {
     }//GEN-LAST:event_Bot_guardar_cMouseExited
 
     private void Bot_analizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_analizarMouseClicked
-        // TODO add your handling code here:
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        for(int i=0; i<lexema.size()-1;i+=2){
+            System.out.println(lexema.get(i));
+            int cont=0;
+            for(int j=0; j<expresion.size()-1;j+=2){ 
+                if(lexema.get(i).equals(expresion.get(j))){
+                    cont+=1;
+                    int contc=0;
+                    String cadena = expresion.get(j+1); 
+                    System.out.println("cad lsit "+cadena);
+                    for(int k=0; k<conjuntos.size()-1;k+=2){
+                        cadena = cadena.replace("{"+conjuntos.get(k)+"}","["+conjuntos.get(k+1)+"]");
+                        expresion.set(j+1, cadena);
+                        
+                    }
+                    try {
+                        String ex ="^[0-5]+.[0-5]+$";
+                                //"^["+expresion.get(j+1)+"]$";
+                        boolean foundMatch =lexema.get(i+1).matches(ex);
+                        System.out.println(lexema.get(i+1)+" -> "+foundMatch +"-> "+ ex);
+                    } catch (PatternSyntaxException ex) {
+                        // Syntax error in the regular expressionçç
+                        System.out.println("error");
+                        
+                    }
+                }
+                
+            }
+        }
+        /**/
+        
     }//GEN-LAST:event_Bot_analizarMouseClicked
 
     private void Bot_analizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_analizarMouseEntered
         Bot_analizar.setBackground(new java.awt.Color(13,183,205));
         Bot_analizar.setForeground(Color.WHITE);
+        carpetas();
     }//GEN-LAST:event_Bot_analizarMouseEntered
 
     private void Bot_analizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_analizarMouseExited
         Bot_analizar.setBackground(new java.awt.Color(94,231,205));
         Bot_analizar.setForeground(new java.awt.Color(19,11,28));
+        carpetas();
     }//GEN-LAST:event_Bot_analizarMouseExited
 
     private void Bot_generarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_generarMouseClicked
-       
+        
+        
         Analizadores.Lexico scanner;
         Analizadores.Sintactico parse;
         ArrayList<Excepcion> errores = new ArrayList();
@@ -701,11 +744,23 @@ public class principal_interface extends javax.swing.JFrame {
                 errores.addAll(scanner.Errores);
                 errores.addAll(parse.getErrores());
                 
-                /* se llaman metodos para generar errores, arboles, tabla siguientes
-                transisiones, afd, afnd y recargar carpetas
-                */
+                //se llaman metodos para generar errores, arboles, tabla siguientes
+                //transisiones, afd, afnd y recargar carpetas
+                
                 if (errores.size()!=0){
                    generarHTML(errores, 1); 
+                   
+                }else{
+                    conjuntos = parse.conjuntos;
+                    expresion = parse.expresion;
+                    lexema = parse.lexema;
+                    System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                    System.out.println(parse.expresion.get(1));
+                    for(int k=0; k<expresion.size()-1;k+=2){
+                        gen_arbol(expresion.get(k),expresion.get(k+1));
+                    }
+                    
+                    
                 }
                 
                 carpetas();
@@ -736,12 +791,14 @@ public class principal_interface extends javax.swing.JFrame {
     private void Bot_generarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_generarMouseExited
         Bot_generar.setBackground(new java.awt.Color(94,231,205));
         Bot_generar.setForeground(new java.awt.Color(19,11,28));
+         carpetas();
        
     }//GEN-LAST:event_Bot_generarMouseExited
 
     private void Bot_generarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_generarMouseEntered
         Bot_generar.setBackground(new java.awt.Color(13,183,205));
         Bot_generar.setForeground(Color.WHITE);
+        carpetas();
     }//GEN-LAST:event_Bot_generarMouseEntered
 
     private void Bot_anteriorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_anteriorMouseClicked
@@ -802,7 +859,7 @@ public class principal_interface extends javax.swing.JFrame {
         };
         if (Box_opciones.getSelectedIndex()>0){
             if (Box_opciones.getSelectedIndex()==1){
-                carpeta = new File("./ARBOLES_202100953");
+                carpeta = new File("./REPORTES/ARBOLES_202100953");
                  visualizar=0;
                 lista = carpeta.listFiles(archivosFilter);
                 mayor = lista.length;
@@ -820,7 +877,7 @@ public class principal_interface extends javax.swing.JFrame {
                 }
             }
              if (Box_opciones.getSelectedIndex()==2){
-                carpeta = new File("./SIGUIENTES_202100953");
+                carpeta = new File("./REPORTES/SIGUIENTES_202100953");
                
                 lista = carpeta.listFiles(archivosFilter);
                  mayor = lista.length;
@@ -838,7 +895,7 @@ public class principal_interface extends javax.swing.JFrame {
                 }
             }
               if (Box_opciones.getSelectedIndex()==3){
-                carpeta = new File("./TRANSICIONES_202100953");
+                carpeta = new File("./REPORTES/TRANSICIONES_202100953");
                 visualizar=0;
                 lista = carpeta.listFiles(archivosFilter);
                  mayor = lista.length;
@@ -855,7 +912,7 @@ public class principal_interface extends javax.swing.JFrame {
                 }
             }
                if (Box_opciones.getSelectedIndex()==4){
-                carpeta = new File("./AFD_202100953");
+                carpeta = new File("./REPORTES/AFD_202100953");
                 visualizar=0;
                 lista = carpeta.listFiles(archivosFilter);
                  mayor = lista.length;
@@ -872,7 +929,7 @@ public class principal_interface extends javax.swing.JFrame {
                 }
             }
                if (Box_opciones.getSelectedIndex()==5){
-                carpeta = new File("./AFND_202100953");
+                carpeta = new File("./REPORTES/AFND_202100953");
                 visualizar=0;
                 lista = carpeta.listFiles(archivosFilter);
                 mayor = lista.length;
@@ -895,7 +952,7 @@ public class principal_interface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Box_opcionesActionPerformed
 
-     public void borrarimagen(){
+    public void borrarimagen(){
 
         try{
             if (img !=null){
@@ -909,6 +966,7 @@ public class principal_interface extends javax.swing.JFrame {
        
         
     }
+    
     public void cargarimagen(File[] listaimag){
         int cont=0;
         try{
@@ -924,8 +982,34 @@ public class principal_interface extends javax.swing.JFrame {
        
         
     }
+   
+    public  void gen_arbol(String id, String er){
+        //String er = "+|ab"; 
+        ArrayList<nodo> listhojas = new ArrayList();
+        ArrayList<ArrayList> tablas = new ArrayList();
+        System.out.println(er);
+        er = "." + er + "#";
+        System.out.println(er);
+        Arbol arbol = new Arbol(er,id, listhojas, tablas); 
+        nodo raiz = arbol.getRoot();
+        
+       
+        raiz.follow();
+        
+        
+        System.out.println("==============================TABLA SIGUIENTES==============================");
+        TablaSiguientes ft = new TablaSiguientes();
+        ft.printTable(tablas,id);
+        TablaTransiciones tran = new TablaTransiciones(raiz, tablas, listhojas); // bug
+        System.out.println("=============================TABLA TRANSICIONES=============================");
+        tran.impTable(id);
+        System.out.println("============================= GRAPHVIZ===============================================");
+        tran.impAFD(id);
+        
+       
+    }
     
-     public static void generarHTML(ArrayList<Excepcion> errores, Integer opcion) throws IOException {
+    public static void generarHTML(ArrayList<Excepcion> errores, Integer opcion) throws IOException {
         FileWriter fichero = null;
         PrintWriter pw = null;
         String report ="";
@@ -936,7 +1020,7 @@ public class principal_interface extends javax.swing.JFrame {
         }
         try {
             
-            String path = "./ERRORES_202100953/Reporte_errores_"+report+".html";
+            String path = "./REPORTES/ERRORES_202100953/Reporte_errores_"+report+".html";
             fichero = new FileWriter(path);
             pw = new PrintWriter(fichero);
             

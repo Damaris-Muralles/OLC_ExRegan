@@ -1,0 +1,37 @@
+digraph G {
+
+    fontcolor="cyan4"
+    bgcolor="#170920"
+    node [fontname="Helvetica,Arial,sans-serif", shape=none, ordering="in"]
+    label=" "
+
+    subgraph cluster01{
+        color="#170920"
+        label="EXP: digit"
+        n0 [label = <
+                <table border="0" cellspacing="0" cellborder="1" color="#5ee7cd">
+                    <tr>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black"> ESTADO </font></td>
+                    <td  colspan="2" align="center" bgcolor="#5ee7cd"><font color="black"> TERMINALES </font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black"> ACEPTACION </font></td>
+                    </tr>
+                    <tr>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">  </font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">a</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">b</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">  </font></td>
+                    </tr>
+<tr>
+                    <td><font color="white" align="center">X0[1, 2]</font></td>
+                    <td align="center"><font color="white">X1</font></td>
+                    <td align="center"><font color="white">X1</font></td>
+                    <td ><font color="white" align="center"> </font></td>
+                    </tr><tr>
+                    <td><font color="white" align="center">X1[1, 2, 3]</font></td>
+                    <td align="center"><font color="white">X1</font></td>
+                    <td align="center"><font color="white">X1</font></td>
+                    <td ><font color="white" align="center">true</font></td>
+                    </tr>                </table>
+        > ] ; 
+    }
+}
