@@ -29,7 +29,7 @@ parser code
     public List<String> conjuntos = new ArrayList<String>();
     public List<String> expresion = new ArrayList<String>();
     public List<String> lexema = new ArrayList<String>();
-    public List<String> hojas = new ArrayList<String>();
+    public List filas  = new ArrayList();
 :} 
 
 /* 3. Terminales */
@@ -91,6 +91,8 @@ lexemas ::= IDTEXT:idex1 PP CDOBLE lexevaluar:ev CDOBLE PCOMA {:
         
         lexema.add(idex1 );
         lexema.add(ev);
+        filas.add(idex1);
+        filas.add(((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).left);
 
     :};
 lexevaluar ::= lexevaluar:v1 otrolex:lex1 {:RESULT=v1+lex1;:}|  otrolex:lex2 {:RESULT=lex2;:};

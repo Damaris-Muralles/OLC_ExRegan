@@ -271,7 +271,7 @@ public class Lexico implements java_cup.runtime.Scanner {
    */
   public Lexico(java.io.Reader in) {
       yyline = 1; 
-    yychar = 0; 
+    yychar = 1; 
     this.zzReader = in;
   }
 
@@ -676,7 +676,7 @@ public class Lexico implements java_cup.runtime.Scanner {
             // fall through
           case 35: break;
           case 9: 
-            { yychar=0;
+            { yychar=1;
             } 
             // fall through
           case 36: break;

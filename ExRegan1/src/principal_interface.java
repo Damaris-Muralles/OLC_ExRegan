@@ -6,6 +6,7 @@ import arbol_afd.Arbol;
 import arbol_afd.TablaSiguientes;
 import arbol_afd.TablaTransiciones;
 import arbol_afd.nodo;
+import arbol_afd.transiciones;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.awt.Color;
@@ -32,12 +33,19 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class principal_interface extends javax.swing.JFrame {
    java.io.File archivo;
    javax.swing.ImageIcon[] img;
-   public List<String> conjuntos = new ArrayList<String>();
-   public List<String> expresion = new ArrayList<String>();
-   public List<String> lexema = new ArrayList<String>();
    int visualizar = 0;
    int mayor;
    Icon icon;
+   String mconsola="";
+   int eventg=0;
+   public List<String> conjuntos = new ArrayList<String>();
+   public List<String> expresion = new ArrayList<String>();
+   public List automata = new ArrayList();
+   public List filalex = new ArrayList();
+   public List<String> lexema = new ArrayList<String>();
+   public ArrayList<Excepcion> Erroreslex = new ArrayList();
+   public int filaer=0;
+   
    int xmouse, ymouse;
 
     public principal_interface() {
@@ -263,7 +271,6 @@ public class principal_interface extends javax.swing.JFrame {
         text_consola.setForeground(new java.awt.Color(94, 231, 205));
         text_consola.setLineWrap(true);
         text_consola.setRows(5);
-        text_consola.setText("La expresión: <lexema de entrada> es válida con la expresión Regular <Nombre de la Expresión Regular>");
         text_consola.setBorder(null);
         jScrollPane1.setViewportView(text_consola);
 
@@ -490,6 +497,10 @@ public class principal_interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void carpetas(){
+        a_arboles.setText("");
+        a_siguiente.setText("");
+        a_transacc.setText("");
+        a_automata.setText("");
         a_arboles.setText(mostrararchivos("./REPORTES/ARBOLES_202100953"));
         a_siguiente.setText(mostrararchivos("./REPORTES/SIGUIENTES_202100953"));
         a_transacc.setText(mostrararchivos("./REPORTES/TRANSICIONES_202100953"));
@@ -684,37 +695,75 @@ public class principal_interface extends javax.swing.JFrame {
     }//GEN-LAST:event_Bot_guardar_cMouseExited
 
     private void Bot_analizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_analizarMouseClicked
-        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        
+    if (eventg==1){    
+        String contenido="";
+        String valido="Cadena Válida";
+        System.out.println("%%%%%%%%%%%%%%%%%%%% ANALISIS DE CADENA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         for(int i=0; i<lexema.size()-1;i+=2){
+            ArrayList afda =new ArrayList();
+            ArrayList conj =new ArrayList();
+            System.out.println("");
             System.out.println(lexema.get(i));
             int cont=0;
-            for(int j=0; j<expresion.size()-1;j+=2){ 
-                if(lexema.get(i).equals(expresion.get(j))){
+            for(int j=0; j<automata.size()-1;j+=2){ 
+                if(lexema.get(i).equals(automata.get(j))){
                     cont+=1;
-                    int contc=0;
-                    String cadena = expresion.get(j+1); 
-                    System.out.println("cad lsit "+cadena);
-                    for(int k=0; k<conjuntos.size()-1;k+=2){
-                        cadena = cadena.replace("{"+conjuntos.get(k)+"}","["+conjuntos.get(k+1)+"]");
-                        expresion.set(j+1, cadena);
-                        
-                    }
-                    try {
-                        String ex ="^[0-5]+.[0-5]+$";
-                                //"^["+expresion.get(j+1)+"]$";
-                        boolean foundMatch =lexema.get(i+1).matches(ex);
-                        System.out.println(lexema.get(i+1)+" -> "+foundMatch +"-> "+ ex);
-                    } catch (PatternSyntaxException ex) {
-                        // Syntax error in the regular expressionçç
-                        System.out.println("error");
-                        
-                    }
+                   afda=(ArrayList) automata.get(j+1);
+                }
+            }    
+                for(int ex=0; ex<expresion.size()-1;ex+=2){
+                    if(lexema.get(i).equals(expresion.get(ex))){
+                        for(int k=0; k<conjuntos.size()-1;k+=2){
+                            Pattern pattern = Pattern.compile(conjuntos.get(k));
+                            Matcher matcher = pattern.matcher(expresion.get(ex+1));
+                            boolean matchFound = matcher.find();
+                            if(matchFound) {
+                               conj.add(conjuntos.get(k));
+                               conj.add(conjuntos.get(k+1));
+                            } 
+                        }
+                       
+                     }       
                 }
                 
+            
+            if(cont==0){
+                int opcion =javax.swing.JOptionPane.showConfirmDialog(null,"El automata para "+lexema.get(i)+" no ha sido creado.\n¿Desea continuar con el analisis?",
+                         "ExRegan",javax.swing.JOptionPane.YES_NO_OPTION);
+                
+                if (opcion == javax.swing.JOptionPane.NO_OPTION) {
+                        break;
+                } 
+            }else{
+                //Analisislex(lexema.get(i+1),conj, lexema.get(i));
+                AnalisisSin(lexema.get(i+1),afda,conj,lexema.get(i));
+                if (!Erroreslex.isEmpty()){
+                     valido="Cadena No Válida";
+                    try { 
+                        generarHTML(Erroreslex, 0,lexema.get(i) );
+                    } catch (IOException ex) {
+                        Logger.getLogger(principal_interface.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else{
+                    mconsola+="La expresión: \""+lexema.get(i+1)+"\" es válida con la expresión Regular "+lexema.get(i)+".\n";
+                    this.text_consola.setText("");
+                    this.text_consola.setText(mconsola);
+                }
+                contenido+="   {\n"+
+"   \"Valor\":\""+lexema.get(i+1)+"\",\n"+
+"   \"ExpresionRegular\":\""+lexema.get(i)+"\",\n"+
+"   \"Resultado\":\""+valido+"\"\n"+
+"   }";
+                if (i<lexema.size()-2){
+                    contenido+=",\n";
+                }    
             }
         }
-        /**/
-        
+        GenerarJson(contenido);
+        eventg=0;
+    }
+    
     }//GEN-LAST:event_Bot_analizarMouseClicked
 
     private void Bot_analizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_analizarMouseEntered
@@ -731,60 +780,61 @@ public class principal_interface extends javax.swing.JFrame {
 
     private void Bot_generarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_generarMouseClicked
         
-        
-        Analizadores.Lexico scanner;
-        Analizadores.Sintactico parse;
-        ArrayList<Excepcion> errores = new ArrayList();
+        if (archivo.getAbsolutePath()!=null){
+            Analizadores.Lexico scanner;
+            Analizadores.Sintactico parse;
+            ArrayList<Excepcion> errores = new ArrayList();
 
-        try {
-            
-                scanner = new Lexico(new BufferedReader(new StringReader(Text_area.getText())));
-                parse = new Sintactico(scanner);
-                parse.parse();
-                errores.addAll(scanner.Errores);
-                errores.addAll(parse.getErrores());
-                
-                //se llaman metodos para generar errores, arboles, tabla siguientes
-                //transisiones, afd, afnd y recargar carpetas
-                
-                if (errores.size()!=0){
-                   generarHTML(errores, 1); 
-                   
-                }else{
-                    conjuntos = parse.conjuntos;
-                    expresion = parse.expresion;
-                    lexema = parse.lexema;
-                    System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                    System.out.println(parse.expresion.get(1));
-                    for(int k=0; k<expresion.size()-1;k+=2){
-                        gen_arbol(expresion.get(k),expresion.get(k+1));
+            try {
+
+                    scanner = new Lexico(new BufferedReader(new StringReader(Text_area.getText())));
+                    parse = new Sintactico(scanner);
+                    parse.parse();
+                    errores.addAll(scanner.Errores);
+                    errores.addAll(parse.getErrores());
+
+                    //se llaman metodos para generar errores, arboles, tabla siguientes
+                    //transisiones, afd, afnd y recargar carpetas
+
+                    if (errores.size()!=0){
+                       generarHTML(errores, 1, null); 
+
+                    }else{
+                        conjuntos = parse.conjuntos;
+                        expresion = parse.expresion;
+                        lexema = parse.lexema;
+                        filalex = parse.filas;
+                        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                        System.out.println(parse.expresion.get(1));
+                        for(int k=0; k<expresion.size()-1;k+=2){
+                            gen_arbol(expresion.get(k),expresion.get(k+1));
+                        }
                     }
-                    
-                    
-                }
-                
-                carpetas();
 
-                String result = "";
-                for (int i = 0; i < parse.conjuntos.size(); i++) {
-                   result += parse.conjuntos.get(i) + "\n";
-                }
-                  for (int i = 0; i < parse.expresion.size(); i++) {
-                   result += parse.expresion.get(i) + "\n";
-                 }
-                 for (int i = 0; i < parse.lexema.size(); i++) {
-                   result += parse.lexema.get(i) + "\n";
-                 }
-                this.text_consola.setText(result);
-          
-                
-        } catch (Exception ex) {
-           Logger.getLogger(principal_interface.class.getName()).log(Level.SEVERE, null, ex);
-                    System.out.println("Error fatal en compilación de entrada.");
-        }   
-        
-        
-        
+                    carpetas();
+                    /*
+                    String result = "";
+                    for (int i = 0; i < parse.conjuntos.size(); i++) {
+                       result += parse.conjuntos.get(i) + "\n";
+                    }
+                      for (int i = 0; i < parse.expresion.size(); i++) {
+                       result += parse.expresion.get(i) + "\n";
+                     }
+                     for (int i = 0; i < parse.lexema.size(); i++) {
+                       result += parse.lexema.get(i) + "\n";
+                     }
+                    this.text_consola.setText(result);*/
+
+                eventg=1;
+            } catch (Exception ex) {
+               Logger.getLogger(principal_interface.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("Error fatal en compilación de entrada.");
+            } 
+            
+        }else{
+            javax.swing.JOptionPane.showMessageDialog(null,"No se ha guardado el archivo",
+                         "ExRegan",javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
        
     }//GEN-LAST:event_Bot_generarMouseClicked
 
@@ -985,9 +1035,11 @@ public class principal_interface extends javax.swing.JFrame {
    
     public  void gen_arbol(String id, String er){
         //String er = "+|ab"; 
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
         ArrayList<nodo> listhojas = new ArrayList();
         ArrayList<ArrayList> tablas = new ArrayList();
-        System.out.println(er);
         er = "." + er + "#";
         System.out.println(er);
         Arbol arbol = new Arbol(er,id, listhojas, tablas); 
@@ -1004,19 +1056,154 @@ public class principal_interface extends javax.swing.JFrame {
         System.out.println("=============================TABLA TRANSICIONES=============================");
         tran.impTable(id);
         System.out.println("============================= GRAPHVIZ===============================================");
-        tran.impAFD(id);
-        
-       
+        automata.add(id);
+        automata.add(tran.impAFD(id));
     }
     
-    public static void generarHTML(ArrayList<Excepcion> errores, Integer opcion) throws IOException {
+    public void Analisislex(String exp,ArrayList conj,String idex){
+        String cadenaev="";
+        for(int i=0; i<conj.size()-1;i+=2){
+            String conj1 =(String) conj.get(i+1);
+            System.out.println(conj1);
+            conj1 = conj1.replace("~","-").replace(",","|");
+            
+            if (i==conj.size()-2){
+                cadenaev+=conj1;
+                System.out.println(cadenaev);
+            }else{
+                cadenaev+=conj1+"|";
+            }
+            
+        }
+        
+        for (int i=0; i<filalex.size()-1;i+=2){
+            if (filalex.get(i).equals(idex)){
+                filaer=(int) filalex.get(i+1);
+            }
+        }
+        
+        String[] lisexp = exp.split("");
+        
+        //String tipo, String descripcion, String linea, String columna
+        int colum =0;
+        try {
+           String ex ="^["+cadenaev+"]+$";
+           
+           System.out.println("entra "+cadenaev);
+           for (String item:lisexp){
+               colum+=1;
+               System.out.println("entra "+item);
+               boolean foundMatch =item.matches(ex);
+               System.out.println("entra");
+               System.out.println(exp+" -> "+foundMatch +"-> "+ ex);
+               if (!foundMatch){
+                   Erroreslex.add(new Excepcion("Lexico", "Error de lexico detectado. Se detectó: " + item, filaer + "", colum + ""));
+               }
+           }
+           
+        } catch (PatternSyntaxException ex) {
+               System.out.println("error");         
+        }
+    }
+    
+    public void AnalisisSin(String exp,ArrayList afdc,ArrayList conj, String idex){
+        
+        Erroreslex.clear();
+        String estado_actual="X0";
+        transiciones tr = (transiciones) afdc.get(afdc.size()-1);
+        String estado_final= tr.finalS;
+        
+        for (int i=0; i<filalex.size()-1;i+=2){
+            if (filalex.get(i).equals(idex)){
+                filaer=(int) filalex.get(i+1);
+            }
+        }
+        
+        String[] lisexp = exp.split("");
+        int colum =0;
+        
+        //do{
+        try { 
+            for (String item:lisexp){
+                colum+=1;
+                int cont=0;
+                String temp=estado_actual;
+                System.out.println("");
+                System.out.println("item: "+item);
+                for(int i=0; i<afdc.size();i++){
+                    String conjev="";
+                    transiciones t = (transiciones) afdc.get(i);
+                    if (t.initial.equals(estado_actual)){
+                        System.out.println("transicion g:"+t.transition);
+                        System.out.println("trans inical: "+t.initial +" actual: "+estado_actual);
+                        for(int j=0; j<conj.size()-1;j+=2){
+                             if (t.transition.equals(conj.get(j))){
+                                 String conj1 =(String) conj.get(j+1);
+                                 System.out.println("conjunto: "+conj1);
+                                 conjev+=conj1.replace("~","-").replace(",","|");
+                             }
+                        }
+                        
+                        if (("".equals(conjev))){
+                        conjev=t.transition;
+                        }
+                        System.out.println("conjunto def : "+conjev);
+                        String ex ="^["+conjev+"]+$";
+                        boolean foundMatch =item.matches(ex);
+                        System.out.println("RESULTADO MAT: "+item+" -> "+foundMatch +"-> "+ ex);
+                        if (foundMatch){
+                            estado_actual=t.finalS;
+                            System.out.println("ENCONTRADO: "+t.initial+" -> "+ t.transition+"-> "+ t.finalS);
+                            cont=0;
+                            break;
+                        }else{
+                            cont+=1;
+                        } 
+                        
+                    } 
+                }
+                if (cont>0){
+                    System.out.println("se ingreso un error");
+                    Erroreslex.add(new Excepcion("Sintactico", "Error de sintactico detectado. Se detectó: " + item, filaer + "", colum + ""));
+                }
+            }
+        }catch (PatternSyntaxException ex) {
+            System.out.println("error");         
+        }
+         //}while(estado_actual.equals(estado_final));
+        
+    
+        
+    }
+    
+    public void GenerarJson(String cadena){
+        String contenido="[\n"+cadena+"\n]";
+        FileWriter fichero = null;
+        PrintWriter escritor = null;
+        String archname = archivo.getName();
+        archname =archname.replace(".olc","");
+        try{
+            fichero = new FileWriter("./REPORTES/SALIDAS_202100953/"+archname+".json");
+            escritor = new PrintWriter(fichero);
+            escritor.println(contenido);
+            escritor.close();
+            fichero.close();
+            System.out.println("");
+            System.out.println("JSON generado");
+        } catch (Exception e) {
+            System.out.println("error en generar json");
+            e.printStackTrace();
+        }
+    }
+    
+    public static void generarHTML(ArrayList<Excepcion> errores, Integer opcion,String name) throws IOException {
         FileWriter fichero = null;
         PrintWriter pw = null;
         String report ="";
         if (opcion == 1){
             report ="lenguaje";
         }else{
-            report ="lexema";
+            report ="lexema_"+name;
         }
         try {
             
@@ -1176,7 +1363,10 @@ public class principal_interface extends javax.swing.JFrame {
 
 
             pw.println(contenido);
-            Desktop.getDesktop().open(new File(path));
+            //if (opcion==1){
+                Desktop.getDesktop().open(new File(path));
+            //}
+            
             
             
         } catch (Exception e) {
@@ -1191,6 +1381,9 @@ public class principal_interface extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+    
+    
     /**
      * @param args the command line arguments
      */

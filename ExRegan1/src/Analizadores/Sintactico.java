@@ -270,6 +270,7 @@ public class Sintactico extends java_cup.runtime.lr_parser {
     public List<String> conjuntos = new ArrayList<String>();
     public List<String> expresion = new ArrayList<String>();
     public List<String> lexema = new ArrayList<String>();
+    public List filas  = new ArrayList();
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -831,6 +832,8 @@ class CUP$Sintactico$actions {
         
         lexema.add(idex1 );
         lexema.add(ev);
+        filas.add(idex1);
+        filas.add(((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).left);
 
     
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("lexemas",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);

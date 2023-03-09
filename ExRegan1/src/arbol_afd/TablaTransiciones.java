@@ -174,8 +174,8 @@ public class TablaTransiciones {
     GenerarDot(contenido,archivoname);
     }
     
-     public void impAFD(String name){
-         
+     public ArrayList impAFD(String name){
+         ArrayList afd = new ArrayList();
         String cadena="digraph finite_state_machine {\n" +
 "    fontcolor=\"White\"\n" +
 "    bgcolor=\"#170920\"\n" +
@@ -190,7 +190,7 @@ public class TablaTransiciones {
             for(Object tr : (ArrayList)state.get(2)){
                 transiciones t = (transiciones) tr; 
                 graph += t.graph();
-                
+                afd.add(t);
                 aux += "	"+t.initial+" -> "+t.finalS+" [label = \""+t.transition.replace("\"", "\\\"")+"\" color=\"#5ee7cd\" fontcolor=\"#5ee7cd\"];\n";
             }
             System.out.println(graph);
@@ -202,6 +202,8 @@ public class TablaTransiciones {
 "    node [shape = circle];\n"+ aux+"}";
         String archivoname ="./REPORTES/AFD_202100953/Afd_"+name;
         GenerarDot(cadena,archivoname);
+        
+        return afd;
     }
     
      

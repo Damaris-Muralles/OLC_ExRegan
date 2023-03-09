@@ -27,7 +27,7 @@ import java.util.ArrayList;
 //Inicializar el contador de columna y fila con 1
 %init{ 
     yyline = 1; 
-    yychar = 0; 
+    yychar = 1; 
 %init}
 
 //Expresiones regulares
@@ -67,7 +67,7 @@ comentariomultiple    = [<][!][^\!\>]*[!][>]
 <YYINITIAL> "|" { System.out.println("Reconocio "+yytext()+" disyuncion "); return new Symbol(sym.DISYUNCION,yyline,yychar, yytext());} 
 <YYINITIAL> "?" { System.out.println("Reconocio "+yytext()+" cerradora una o cero veces "); return new Symbol(sym.CBOOL,yyline,yychar, yytext());} 
 
-\n {yychar=0;}
+\n {yychar=1;}
 <YYINITIAL> {BLANCOS} {} 
 <YYINITIAL> {comentariosimple} {System.out.println("Comentario: "+yytext()); }
 <YYINITIAL> {comentariomultiple} {System.out.println("Comentario multilinea: "+yytext()); }
