@@ -39,6 +39,7 @@ public class TablaTransiciones {
                 String found = "";
                 
                 for( ArrayList e : states ){
+                   // System.out.println("tran "+e.get(1)+" "+lexemeNext.get(1));
                     if(e.get(1).equals(lexemeNext.get(1))){
                         existe = true;
                         found = (String)e.get(0);
@@ -60,7 +61,7 @@ public class TablaTransiciones {
                     nuevo.add(lexemeNext.get(1));
                     nuevo.add(new ArrayList());
                     nuevo.add(false);
-                    
+                    //System.out.println(state.get(0) + " "+ lexemeNext.get(0) + " "+ nuevo.get(0) + "");
                     transiciones trans = new transiciones(state.get(0) + "", lexemeNext.get(0) + "", nuevo.get(0) + "");
                     ((ArrayList)state.get(2)).add(trans);
                     
@@ -84,6 +85,7 @@ public class TablaTransiciones {
                         }
                     }
                     if(!trans_exist){
+                        //System.out.println(state.get(0) + " "+ lexemeNext.get(0) + " "+ found  + "");
                         transiciones trans = new transiciones(state.get(0) + "", lexemeNext.get(0) + "", found + "");
                         ((ArrayList)state.get(2)).add(trans);
                     }

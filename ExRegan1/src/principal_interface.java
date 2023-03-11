@@ -560,6 +560,7 @@ public class principal_interface extends javax.swing.JFrame {
 
     private void Bot_nuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_nuevoMouseClicked
         Text_area.setText("");
+        eventg=0;
         archivo=null;
     }//GEN-LAST:event_Bot_nuevoMouseClicked
 
@@ -587,6 +588,7 @@ public class principal_interface extends javax.swing.JFrame {
             } catch (java.io.FileNotFoundException ex) {
                 Logger.getLogger(principal_interface.class.getName()).log(Level.SEVERE, null, ex);
             }
+            eventg=0;
         }
         
     }//GEN-LAST:event_Bot_abrirMouseClicked
@@ -698,9 +700,10 @@ public class principal_interface extends javax.swing.JFrame {
         
     if (eventg==1){    
         String contenido="";
-        String valido="Cadena Válida";
+        
         System.out.println("%%%%%%%%%%%%%%%%%%%% ANALISIS DE CADENA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         for(int i=0; i<lexema.size()-1;i+=2){
+            String valido="Cadena Válida";
             ArrayList afda =new ArrayList();
             ArrayList conj =new ArrayList();
             System.out.println("");
@@ -746,12 +749,12 @@ public class principal_interface extends javax.swing.JFrame {
                         Logger.getLogger(principal_interface.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else{
-                    mconsola+="La expresión: \""+lexema.get(i+1)+"\" es válida con la expresión Regular "+lexema.get(i)+".\n";
+                    mconsola+="La expresión: "+lexema.get(i+1)+" es válida con la expresión Regular "+lexema.get(i)+".\n";
                     this.text_consola.setText("");
                     this.text_consola.setText(mconsola);
                 }
                 contenido+="   {\n"+
-"   \"Valor\":\""+lexema.get(i+1)+"\",\n"+
+"   \"Valor\":"+lexema.get(i+1)+",\n"+
 "   \"ExpresionRegular\":\""+lexema.get(i)+"\",\n"+
 "   \"Resultado\":\""+valido+"\"\n"+
 "   }";
@@ -761,7 +764,7 @@ public class principal_interface extends javax.swing.JFrame {
             }
         }
         GenerarJson(contenido);
-        eventg=0;
+       
     }
     
     }//GEN-LAST:event_Bot_analizarMouseClicked
@@ -779,6 +782,7 @@ public class principal_interface extends javax.swing.JFrame {
     }//GEN-LAST:event_Bot_analizarMouseExited
 
     private void Bot_generarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_generarMouseClicked
+        //gen_arbol("DIGIT","..A*|ABB");
         
         if (archivo.getAbsolutePath()!=null){
             Analizadores.Lexico scanner;
@@ -805,25 +809,27 @@ public class principal_interface extends javax.swing.JFrame {
                         lexema = parse.lexema;
                         filalex = parse.filas;
                         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                        System.out.println(parse.expresion.get(1));
+                        
                         for(int k=0; k<expresion.size()-1;k+=2){
+                            System.out.println(parse.expresion.get(k+1));
                             gen_arbol(expresion.get(k),expresion.get(k+1));
+                           
                         }
                     }
 
                     carpetas();
-                    /*
-                    String result = "";
-                    for (int i = 0; i < parse.conjuntos.size(); i++) {
-                       result += parse.conjuntos.get(i) + "\n";
-                    }
-                      for (int i = 0; i < parse.expresion.size(); i++) {
-                       result += parse.expresion.get(i) + "\n";
-                     }
-                     for (int i = 0; i < parse.lexema.size(); i++) {
-                       result += parse.lexema.get(i) + "\n";
-                     }
-                    this.text_consola.setText(result);*/
+                    //
+                    //String result = "";
+                    //for (int i = 0; i < parse.conjuntos.size(); i++) {
+                     //  result += parse.conjuntos.get(i) + "\n";
+                   // }
+                    //  for (int i = 0; i < parse.expresion.size(); i++) {
+                      // result += parse.expresion.get(i) + "\n";
+                    // }
+                     //for (int i = 0; i < parse.lexema.size(); i++) {
+                       //result += parse.lexema.get(i) + "\n";
+                     //}
+                   // this.text_consola.setText(result);
 
                 eventg=1;
             } catch (Exception ex) {
@@ -1124,12 +1130,13 @@ public class principal_interface extends javax.swing.JFrame {
         
         //do{
         try { 
-            for (String item:lisexp){
+            for (int it=1; it<lisexp.length-1;it++){
                 colum+=1;
                 int cont=0;
                 String temp=estado_actual;
+                String item=lisexp[it];
                 System.out.println("");
-                System.out.println("item: "+item);
+                System.out.println("item: "+lisexp[it]);
                 for(int i=0; i<afdc.size();i++){
                     String conjev="";
                     transiciones t = (transiciones) afdc.get(i);

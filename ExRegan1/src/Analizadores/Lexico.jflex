@@ -31,16 +31,19 @@ import java.util.ArrayList;
 %init}
 
 //Expresiones regulares
-BLANCOS=[\r\t\ ]+
+
 
 D=[0-9]+
 DD=[0-9]+("."[  |0-9]+)?
 LMAYUS =[A-Z]
 LMINUS =[a-z]
+ESPECIALESC =(\\\")|(\\\')|(\\n)|("\\\"")|("\\\'")|("\\n")
+EXCEPCION_S =[^\'\"]
+BLANCOS=[\r\t\ ]+
+IDENTIFICADOR =[a-zA-Z][a-zA-Z0-9_]+
 CODEANSI = [\ -/:-@\[-`{-}]
-TEXT =[a-zA-Z][a-zA-Z0-9_]+
-
-
+INDIVIDUAL =(\"{EXCEPCION_S}\")|{ESPECIALESC}
+CADENA = \" ([^\"]|"\\\"")+\"
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 EntradaM = \t|[^\t]
@@ -58,7 +61,7 @@ comentariomultiple    = [<][!][^\!\>]*[!][>]
 <YYINITIAL> ":" { System.out.println("Reconocio "+yytext()+" dos puntos"); return new Symbol(sym.PP,yyline,yychar, yytext());} 
 <YYINITIAL> ">" { System.out.println("Reconocio "+yytext()+" mayor que "); return new Symbol(sym.MAYOR,yyline,yychar, yytext());} 
 <YYINITIAL> "-" { System.out.println("Reconocio "+yytext()+" guion"); return new Symbol(sym.GUION,yyline,yychar, yytext());} 
-<YYINITIAL> "\"" { System.out.println("Reconocio "+yytext()+" comilla doble "); return new Symbol(sym.CDOBLE,yyline,yychar, yytext());} 
+
 <YYINITIAL> "~" { System.out.println("Reconocio "+yytext()+" guion ondulado"); return new Symbol(sym.ONDGUION,yyline,yychar, yytext());}
 <YYINITIAL> "%%" { System.out.println("Reconocio "+yytext()+" porcentajes"); return new Symbol(sym.SPORCENT,yyline,yychar, yytext());}
 <YYINITIAL> "+" { System.out.println("Reconocio "+yytext()+" cerradura positiva");return new Symbol(sym.CPOSITIVA,yyline,yychar, yytext());} 
@@ -73,10 +76,13 @@ comentariomultiple    = [<][!][^\!\>]*[!][>]
 <YYINITIAL> {comentariomultiple} {System.out.println("Comentario multilinea: "+yytext()); }
 <YYINITIAL> {D} {System.out.println("Reconocio "+yytext()+" numeros"); return new Symbol(sym.NUMEROS,yyline,yychar, yytext());} 
 <YYINITIAL> {DD} {System.out.println("Reconocio "+yytext()+" numeros decimales"); return new Symbol(sym.DECIMAL,yyline,yychar, yytext());}
-<YYINITIAL> {LMAYUS} {System.out.println("Reconocio "+yytext()+" letras mayusculas"); return new Symbol(sym.ALFAMAYUS,yyline,yychar, yytext());} 
+<YYINITIAL> {LMAYUS} {System.out.println("Reconocio "+yytext()+" letras mayusculas"); return new Symbol(sym.ALFAMAYUS,yyline,yychar, yytext());}
+<YYINITIAL> {INDIVIDUAL} {System.out.println("Reconocio individual: "+yytext()); return new Symbol(sym.INDIV,yyline,yychar, yytext());} 
+<YYINITIAL> {CADENA} {System.out.println("Reconocio cadena: " +yytext()); return new Symbol(sym.CADENA,yyline,yychar, yytext());}
 <YYINITIAL> {CODEANSI} {System.out.println("Reconocio caracter especial: "+yytext()); return new Symbol(sym.CESPECIAL,yyline,yychar, yytext());} 
 <YYINITIAL> {LMINUS} {System.out.println("Reconocio "+yytext()+" letras minusculas"); return new Symbol(sym.ALFAMINUS,yyline,yychar, yytext());} 
-<YYINITIAL> {TEXT} {System.out.println("Reconocio identificador: "+yytext()); return new Symbol(sym.IDTEXT,yyline,yychar, yytext());} 
+
+<YYINITIAL> {IDENTIFICADOR} {System.out.println("Reconocio identificador: "+yytext()); return new Symbol(sym.IDTEXT,yyline,yychar, yytext());} 
 
 
 . {

@@ -1,0 +1,49 @@
+digraph finite_state_machine {
+    fontcolor="White"
+    bgcolor="#170920"
+	fontname="Helvetica,Arial,sans-serif"
+	label="EXP: correoElectronico"
+	node [fontname="Helvetica,Arial,sans-serif" fontcolor="white"  color="#5ee7cd"]
+	rankdir=LR;
+	node [shape = doublecircle]; X0 X32 [color="red"];
+    node [shape = circle];
+	X0 -> X1 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X1 -> X2 [label = "minuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X0 -> X3 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X3 -> X4 [label = "mayuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X4 -> X5 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X2 -> X5 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X5 -> X6 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X6 -> X7 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X7 -> X8 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X8 -> X9 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X9 -> X10 [label = "simbolos" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X8 -> X11 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X11 -> X12 [label = "minuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X12 -> X13 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X10 -> X13 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X7 -> X14 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X14 -> X15 [label = "mayuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X15 -> X16 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X13 -> X16 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X6 -> X17 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X17 -> X18 [label = "numero" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X18 -> X19 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X16 -> X19 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X19 -> X6 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X19 -> X20 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X20 -> X21 [label = "@" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X21 -> X22 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X22 -> X23 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X23 -> X24 [label = "minuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X22 -> X25 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X25 -> X26 [label = "mayuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X26 -> X27 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X24 -> X27 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X27 -> X22 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X27 -> X28 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X28 -> X29 [label = "\".\"" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X29 -> X30 [label = "c" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X30 -> X31 [label = "o" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X31 -> X32 [label = "m" color="#5ee7cd" fontcolor="#5ee7cd"];
+}

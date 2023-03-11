@@ -2,13 +2,13 @@ digraph finite_state_machine {
     fontcolor="White"
     bgcolor="#170920"
 	fontname="Helvetica,Arial,sans-serif"
-	label="EXP: digit"
+	label="EXP: DIGIT"
 	node [fontname="Helvetica,Arial,sans-serif" fontcolor="white"  color="#5ee7cd"]
 	rankdir=LR;
-	node [shape = doublecircle]; X0 X1[color="red"] [color="red"];
+	node [shape = doublecircle]; X0 X2[color="red"] [color="red"];
     node [shape = circle];
-	X0 -> X1 [label = "a" color="#5ee7cd" fontcolor="#5ee7cd"];
-	X0 -> X1 [label = "b" color="#5ee7cd" fontcolor="#5ee7cd"];
-	X1 -> X1 [label = "a" color="#5ee7cd" fontcolor="#5ee7cd"];
-	X1 -> X1 [label = "b" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X0 -> X1 [label = "A" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X1 -> X1 [label = "A" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X1 -> X1 [label = "B" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X1 -> X2 [label = "B" color="#5ee7cd" fontcolor="#5ee7cd"];
 }

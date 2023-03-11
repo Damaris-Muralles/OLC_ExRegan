@@ -34,15 +34,15 @@ parser code
 
 /* 3. Terminales */
 terminal String DCONJ;
-terminal String LLAVA,LLAVC,COMA,PCOMA,PP,MAYOR,GUION,ONDGUION,CDOBLE,SPORCENT;
+terminal String LLAVA,LLAVC,COMA,PCOMA,PP,MAYOR,GUION,ONDGUION,SPORCENT;
 terminal String CPOSITIVA,CKLEENE,CONCATENAR,DISYUNCION,CBOOL;
-terminal String ALFAMAYUS,ALFAMINUS,NUMEROS,CESPECIAL,IDTEXT,DECIMAL;
+terminal String ALFAMAYUS,ALFAMINUS,NUMEROS,CESPECIAL,IDTEXT,DECIMAL,CADENA,INDIV;
 
 
 /* 4. No Terminales */
 non terminal inicio, lenguajes,lenguaje, declaraciones;
 non terminal notacion,rangoconj,listaconj,elemento,expresiones,lexemas;
-non terminal String exreg,otraexreg,lexevaluar,otrolex;
+non terminal String exreg,otraexreg,elementorango;
 
 
 /* 6. Producciones */
@@ -65,9 +65,16 @@ declaraciones ::= DCONJ PP IDTEXT:id  GUION MAYOR notacion:conj PCOMA
 
 notacion ::= rangoconj:rango {:RESULT=rango;:} |listaconj:lista {:RESULT=lista;:};
 rangoconj ::=  ALFAMINUS:mi1 ONDGUION:gi1 ALFAMINUS:mi2 {:RESULT=mi1+gi1+mi2;:}| ALFAMAYUS:ma1 ONDGUION:gi2 ALFAMAYUS:ma2 {:RESULT=ma1+gi2+ma2;:}| 
-                NUMEROS:num ONDGUION:gi3 NUMEROS:num1 {:RESULT=num+gi3+num1;:}| CESPECIAL:es ONDGUION:gi4 CESPECIAL:es1 {:RESULT=es+gi4+es1;:};
+                NUMEROS:num ONDGUION:gi3 NUMEROS:num1 {:RESULT=num+gi3+num1;:}| elementorango:tes ONDGUION:gi4 elementorango:es1 {:RESULT=tes+gi4+es1;:};
+elementorango ::= GUION:g1 {:RESULT=g1;:}|LLAVA:ab1 {:RESULT=ab1;:}|LLAVC:lc1 {:RESULT=lc1;:}|PP:ppp1 {:RESULT=ppp1;:}|MAYOR:mmm1{:RESULT=mmm1;:}
+             |CPOSITIVA:mas31 {:RESULT=mas31;:}| CKLEENE:por31{:RESULT=por31;:} | CONCATENAR:p31 {:RESULT=p31;:}|
+                DISYUNCION:b31{:RESULT=b31;:}|CBOOL:inte31 {:RESULT=inte31;:}|CESPECIAL:es{:RESULT=es;:};
+
 listaconj ::= elemento:elem {:RESULT=elem;:}| elemento:elem1 COMA:coma listaconj:list1 {:RESULT=elem1+coma+list1;:};
-elemento ::= ALFAMINUS:mi3{:RESULT=mi3;:}|ALFAMAYUS:ma3 {:RESULT=ma3;:}|NUMEROS:num3 {:RESULT=num3;:}|CESPECIAL:es3 {:RESULT=es3;:};
+elemento ::= ALFAMINUS:mi3{:RESULT=mi3;:}|ALFAMAYUS:ma3 {:RESULT=ma3;:}|NUMEROS:num3 {:RESULT=num3;:}|CESPECIAL:es3 {:RESULT=es3;:}
+             |GUION:g {:RESULT=g;:}|LLAVA:ab {:RESULT=ab;:}|LLAVC:lc {:RESULT=lc;:}|PP:ppp {:RESULT=ppp;:}|MAYOR:mmm{:RESULT=mmm;:}
+             |CPOSITIVA:mas3 {:RESULT=mas3;:}| CKLEENE:por3{:RESULT=por3;:} | CONCATENAR:p3 {:RESULT=p3;:}|
+                DISYUNCION:b3{:RESULT=b3;:}|CBOOL:inte3 {:RESULT=inte3;:};
 
 expresiones ::= IDTEXT:idex GUION MAYOR exreg:reg1 PCOMA {:
     
@@ -80,23 +87,24 @@ expresiones ::= IDTEXT:idex GUION MAYOR exreg:reg1 PCOMA {:
 exreg ::= exreg:reg2 otraexreg:ot {:RESULT=reg2+ot;:}|  otraexreg:ot1 {:RESULT=ot1;:};
 otraexreg ::= CPOSITIVA:mas {:RESULT=mas;:}| CKLEENE:por{:RESULT=por;:} | CONCATENAR:p {:RESULT=p;:}|
                 DISYUNCION:b{:RESULT=b;:}|CBOOL:inte {:RESULT=inte;:}|ALFAMINUS:mi4{:RESULT=mi4;:}|
-                ALFAMAYUS:ma4{:RESULT=ma4;:}|NUMEROS:num4{:RESULT=num4;:}|CDOBLE:comi{:RESULT=comi;:}|
+                ALFAMAYUS:ma4{:RESULT=ma4;:}|NUMEROS:num4{:RESULT=num4;:}|
                 CESPECIAL:es4{:RESULT=es4;:}|LLAVA:la IDTEXT:conj1 LLAVC:lc{:RESULT=la+conj1+lc;:}|
                 COMA:coma0{:RESULT=coma0;:}|PP:puntos{:RESULT=puntos;:}|
-                MAYOR:sm0{:RESULT=sm0;:}|GUION:sg{:RESULT=sg;:} |DECIMAL:dec{:RESULT=dec;:};
+                MAYOR:sm0{:RESULT=sm0;:}|GUION:sg{:RESULT=sg;:} |DECIMAL:dec{:RESULT=dec;:}|
+                CADENA:cad{:RESULT=cad;:}|INDIV:ind{:
+                                        if ((!ind.equals("\".\""))&&(!ind.equals("\"+\""))&&(!ind.equals("\"|\""))&&(!ind.equals("\"*\""))&&(!ind.equals("\"?\""))&&(!ind.equals("\"{\""))&&(!ind.equals("\"}\""))){
+                                            ind=ind.replace("\"","");
+                                        }
+                                        RESULT=ind;:};
 
-lexemas ::= IDTEXT:idex1 PP CDOBLE lexevaluar:ev CDOBLE PCOMA {:
+lexemas ::= IDTEXT:idex1 PP CADENA:ev PCOMA {:
     
-        //Inserto en la lista el resultado de la expresión evaluada
-        
+        //Inserto en la lista el resultado de la expresión evaluadaÇ
         lexema.add(idex1 );
         lexema.add(ev);
         filas.add(idex1);
         filas.add(((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).left);
 
     :};
-lexevaluar ::= lexevaluar:v1 otrolex:lex1 {:RESULT=v1+lex1;:}|  otrolex:lex2 {:RESULT=lex2;:};
-otrolex ::= CESPECIAL:es5{:RESULT=es5;:}|ALFAMINUS:mi5{:RESULT=mi5;:}|ALFAMAYUS:ma5{:RESULT=ma5;:}|
-            NUMEROS:num5{:RESULT=num5;:}|IDTEXT:idc{:RESULT=idc;:}|COMA:coma1{:RESULT=coma1;:}|
-            PP:puntos1{:RESULT=puntos1;:}|MAYOR:sm1{:RESULT=sm1;:}|GUION:sg1{:RESULT=sg1;:}|DECIMAL:dec1{:RESULT=dec1;:};
+
 

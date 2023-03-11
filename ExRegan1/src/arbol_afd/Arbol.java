@@ -28,22 +28,27 @@ public class Arbol {
         int n=0;
         int v=0;
         int c=0;
+        int d=0;
+        int numi=-1;
         String id="";
+       
         for (int i=0;i<erSplit.length;i++){
             c=0;
+             System.out.println("sdfsdf: "+erSplit[i]);
             if ("{".equals(erSplit[i])){
                 n=1;
+                System.out.println("llave abieerta");
             }
             if ("}".equals(erSplit[i])){
                 Listsplit.add(id);
-                
-                
+                System.out.println("llave cerrada"+id);
                 n=0;
                 id="";
             }
             if (("\"".equals(erSplit[i]))&& (v==1)){
                 id+=erSplit[i];
                 Listsplit.add(id); 
+                System.out.println("fin de comilla: "+id);
                 v=0;
                 n=0;
                 c=1;
@@ -52,22 +57,40 @@ public class Arbol {
             if (("\"".equals(erSplit[i]))&& (v==0)&&(c==0)){
                 n=1;
                 v=1;
+                System.out.println("comilla inicial");
             }
-          
+            
+            if (("\\".equals(erSplit[i]))){
+                n=1;
+                numi=i;
+                System.out.println("primer escape "+id);
+            }
             if (n==1){
                 if (v==1){
                     id+=erSplit[i];
+                    System.out.println("v "+id);
                 }else{
                     if (!"{".equals(erSplit[i])){
                         id+=erSplit[i];
-                        
+                        System.out.println("pr "+id);
+                    }
+                    if (numi+1==i){
+                        Listsplit.add(id); 
+                        System.out.println("agregando escape: "+id);
+                        id="";
+                        n=0;
                     }
                 }
             }
             if (n==0){
-                if (!("}".equals(erSplit[i]))&&!("\"".equals(erSplit[i]))){
+                if (!("}".equals(erSplit[i]))&&!("\"".equals(erSplit[i]))&&(numi==-1)){
                         Listsplit.add(erSplit[i]);
-                }    
+                        
+                        
+                }
+            if (numi+1==i){
+                numi=-1;
+            }
             }   
         }
         
@@ -91,7 +114,8 @@ public class Arbol {
                 case ".":
                     nodo lefta = (nodo) pila.pop();
                     nodo righta = (nodo) pila.pop();
-                    
+                    System.out.println(leaves);
+                    System.out.println(table);
                     nodo na = new nodo(character, Tipos.AND,numbernod(), 0, lefta, righta, leaves, table);
                     pila.push(na);
                     pilac.push(na);

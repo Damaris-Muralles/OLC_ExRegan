@@ -1,0 +1,33 @@
+digraph finite_state_machine {
+    fontcolor="White"
+    bgcolor="#170920"
+	fontname="Helvetica,Arial,sans-serif"
+	label="EXP: frase"
+	node [fontname="Helvetica,Arial,sans-serif" fontcolor="white"  color="#5ee7cd"]
+	rankdir=LR;
+	node [shape = doublecircle]; X0 X19 X19 [color="red"];
+    node [shape = circle];
+	X0 -> X1 [label = "C" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X1 -> X2 [label = "O" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X2 -> X3 [label = "M" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X3 -> X4 [label = "P" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X4 -> X5 [label = "I" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X5 -> X6 [label = "1" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X6 -> X7 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X7 -> X8 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X8 -> X9 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X9 -> X10 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X10 -> X11 [label = "letra" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X9 -> X12 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X12 -> X13 [label = "digito" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X13 -> X14 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X11 -> X14 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X8 -> X15 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X15 -> X16 [label = " " color="#5ee7cd" fontcolor="#5ee7cd"];
+	X16 -> X17 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X14 -> X17 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X17 -> X8 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X17 -> X18 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X18 -> X19 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X6 -> X19 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
+}

@@ -1,0 +1,142 @@
+digraph G {
+
+    fontcolor="cyan4"
+    bgcolor="#170920"
+    node [fontname="Helvetica,Arial,sans-serif", shape=none, ordering="in"]
+    label=" "
+
+    subgraph cluster01{
+        color="#170920"
+        label="EXP: correoElectronico"
+        n0 [label = <
+                <table border="0" cellspacing="0" cellborder="1" color="#5ee7cd">
+                    <tr>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black"> ESTADO </font></td>
+                    <td  colspan="9" align="center" bgcolor="#5ee7cd"><font color="black"> TERMINALES </font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black"> ACEPTACION </font></td>
+                    </tr>
+                    <tr>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">  </font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">@</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">minuscula</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">simbolos</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">c</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">numero</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">m</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">o</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">"."</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">mayuscula</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">  </font></td>
+                    </tr>
+<tr>
+                    <td><font color="white" align="center">X0[1, 2]</font></td>
+                    <td align="center"><font color="white">X1</font></td>
+                    <td align="center"><font color="white">X1</font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td ><font color="white" align="center"> </font></td>
+                    </tr><tr>
+                    <td><font color="white" align="center">X1[3, 4, 5, 6]</font></td>
+                    <td align="center"><font color="white">X2</font></td>
+                    <td align="center"><font color="white">X2</font></td>
+                    <td align="center"><font color="white">X2</font></td>
+                    <td align="center"><font color="white">X2</font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td ><font color="white" align="center"> </font></td>
+                    </tr><tr>
+                    <td><font color="white" align="center">X2[3, 4, 5, 6, 7]</font></td>
+                    <td align="center"><font color="white">X3</font></td>
+                    <td align="center"><font color="white">X2</font></td>
+                    <td align="center"><font color="white">X2</font></td>
+                    <td align="center"><font color="white">X2</font></td>
+                    <td align="center"><font color="white">X2</font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td ><font color="white" align="center"> </font></td>
+                    </tr><tr>
+                    <td><font color="white" align="center">X3[8, 9]</font></td>
+                    <td align="center"><font color="white">X4</font></td>
+                    <td align="center"><font color="white">X4</font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td ><font color="white" align="center"> </font></td>
+                    </tr><tr>
+                    <td><font color="white" align="center">X4[8, 9, 10]</font></td>
+                    <td align="center"><font color="white">X4</font></td>
+                    <td align="center"><font color="white">X5</font></td>
+                    <td align="center"><font color="white">X4</font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td ><font color="white" align="center"> </font></td>
+                    </tr><tr>
+                    <td><font color="white" align="center">X5[11]</font></td>
+                    <td align="center"><font color="white">X6</font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td ><font color="white" align="center"> </font></td>
+                    </tr><tr>
+                    <td><font color="white" align="center">X6[12]</font></td>
+                    <td align="center"><font color="white">X7</font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td ><font color="white" align="center"> </font></td>
+                    </tr><tr>
+                    <td><font color="white" align="center">X7[13]</font></td>
+                    <td align="center"><font color="white">X8</font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td ><font color="white" align="center"> </font></td>
+                    </tr><tr>
+                    <td><font color="white" align="center">X8[14]</font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> </font></td>
+                    <td ><font color="white" align="center">true</font></td>
+                    </tr>                </table>
+        > ] ; 
+    }
+}

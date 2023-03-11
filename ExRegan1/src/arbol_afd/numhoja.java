@@ -21,6 +21,14 @@ public final class numhoja {
     @SuppressWarnings("empty-statement")
     public int clean(String content){
         content=content.replace("\".\"","P");
+        content=content.replace("\"+\"","M");
+        content=content.replace("\"|\"","O");
+        content=content.replace("\"*\"","K");
+        content=content.replace("\"?\"","B");
+        content=content.replace("\" \"","S");
+        content=content.replace("\\\"","C");
+        content=content.replace("\\\'","I");
+        content=content.replace("\\n","L");
         content=content.replace(".", "").replace("|", "").replace("*", "").replace("+", "").replace("?", "").replace("\"", "");
         String[] erSplit = content.split("");
         ArrayList<String> Listsplit = new ArrayList();

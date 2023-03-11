@@ -10,28 +10,29 @@ public class sym {
   /* terminals */
   public static final int LLAVC = 4;
   public static final int LLAVA = 3;
-  public static final int ALFAMAYUS = 18;
+  public static final int ALFAMAYUS = 17;
   public static final int GUION = 9;
-  public static final int CBOOL = 17;
+  public static final int CADENA = 23;
   public static final int ONDGUION = 10;
-  public static final int DECIMAL = 23;
-  public static final int ALFAMINUS = 19;
-  public static final int CDOBLE = 11;
-  public static final int CESPECIAL = 21;
+  public static final int CBOOL = 16;
+  public static final int DECIMAL = 22;
+  public static final int ALFAMINUS = 18;
+  public static final int INDIV = 24;
+  public static final int CESPECIAL = 20;
   public static final int COMA = 5;
   public static final int PP = 7;
-  public static final int NUMEROS = 20;
-  public static final int IDTEXT = 22;
+  public static final int NUMEROS = 19;
+  public static final int IDTEXT = 21;
   public static final int MAYOR = 8;
   public static final int EOF = 0;
   public static final int DCONJ = 2;
-  public static final int CKLEENE = 14;
-  public static final int DISYUNCION = 16;
+  public static final int CKLEENE = 13;
+  public static final int DISYUNCION = 15;
   public static final int error = 1;
-  public static final int SPORCENT = 12;
+  public static final int SPORCENT = 11;
   public static final int PCOMA = 6;
-  public static final int CONCATENAR = 15;
-  public static final int CPOSITIVA = 13;
+  public static final int CONCATENAR = 14;
+  public static final int CPOSITIVA = 12;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -44,7 +45,6 @@ public class sym {
   "MAYOR",
   "GUION",
   "ONDGUION",
-  "CDOBLE",
   "SPORCENT",
   "CPOSITIVA",
   "CKLEENE",
@@ -56,7 +56,9 @@ public class sym {
   "NUMEROS",
   "CESPECIAL",
   "IDTEXT",
-  "DECIMAL"
+  "DECIMAL",
+  "CADENA",
+  "INDIV"
   };
 }
 
