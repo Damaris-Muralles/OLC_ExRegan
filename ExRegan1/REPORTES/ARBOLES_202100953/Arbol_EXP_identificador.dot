@@ -4,7 +4,7 @@ graph "" {
     bgcolor="#170920"
     node [fontname="Helvetica,Arial,sans-serif", shape=none]
 
-    label="..{abecedarioMinus}*|\"_\"|{abecedarioMinus}{digito}#"
+    label="..{abecedarioMinus}*|_|{abecedarioMinus}{digito}#"
 
     subgraph cluster01{
         color="#5ee7cd"
@@ -60,7 +60,7 @@ graph "" {
                 <table border="0">
                     <tr><td colspan="3"><font color="blue">N</font></td></tr>
                     <tr><td><font color="green">[2]</font></td>
-                    <td bgcolor="#5ee7cd"><font color="black">"_"</font></td>
+                    <td bgcolor="#5ee7cd"><font color="black">_</font></td>
                     <td ><font color="red">[2]</font></td></tr>
                     <tr><td colspan="3"><font color="white">2</font></td></tr>
                 </table>

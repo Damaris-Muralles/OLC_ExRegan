@@ -17,16 +17,16 @@ digraph G {
                     </tr>
                     <tr>
                     <td  align="center" bgcolor="#5ee7cd"><font color="black">  </font></td>
-                    <td  align="center" bgcolor="#5ee7cd"><font color="black">"_"</font></td>
                     <td  align="center" bgcolor="#5ee7cd"><font color="black">digito</font></td>
                     <td  align="center" bgcolor="#5ee7cd"><font color="black">abecedarioMinus</font></td>
+                    <td  align="center" bgcolor="#5ee7cd"><font color="black">_</font></td>
                     <td  align="center" bgcolor="#5ee7cd"><font color="black">  </font></td>
                     </tr>
 <tr>
                     <td><font color="white" align="center">X0[1]</font></td>
+                    <td align="center"><font color="white"> -- </font></td>
                     <td align="center"><font color="white">X1</font></td>
-                    <td align="center"><font color="white"> </font></td>
-                    <td align="center"><font color="white"> </font></td>
+                    <td align="center"><font color="white"> -- </font></td>
                     <td ><font color="white" align="center"> </font></td>
                     </tr><tr>
                     <td><font color="white" align="center">X1[2, 3, 4, 5]</font></td>

@@ -18,7 +18,7 @@ digraph finite_state_machine {
 	X7 -> X8 [label = "/" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X8 -> X9 [label = "minuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X9 -> X9 [label = "minuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
-	X9 -> X10 [label = "\".\"" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X9 -> X10 [label = ""."" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X10 -> X11 [label = "minuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X11 -> X11 [label = "minuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
 }

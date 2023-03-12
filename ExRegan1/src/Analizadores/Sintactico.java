@@ -1111,7 +1111,7 @@ class CUP$Sintactico$actions {
         lexema.add(idex1 );
         lexema.add(ev);
         filas.add(idex1);
-        filas.add(((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).left);
+        filas.add(((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left);
 
     
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("lexemas",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);

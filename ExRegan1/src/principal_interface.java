@@ -561,6 +561,7 @@ public class principal_interface extends javax.swing.JFrame {
     private void Bot_nuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_nuevoMouseClicked
         Text_area.setText("");
         eventg=0;
+        this.text_consola.setText("");
         archivo=null;
     }//GEN-LAST:event_Bot_nuevoMouseClicked
 
@@ -582,9 +583,11 @@ public class principal_interface extends javax.swing.JFrame {
             archivo =nav.getSelectedFile();
             try {
                 java.util.Scanner leer_archivo = new java.util.Scanner(archivo);
+                Text_area.setText("");
                 while(leer_archivo.hasNext()){
                 Text_area.insert(leer_archivo.nextLine() +"\n",Text_area.getText().length());
                 }
+                this.text_consola.setText("");
             } catch (java.io.FileNotFoundException ex) {
                 Logger.getLogger(principal_interface.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -697,10 +700,10 @@ public class principal_interface extends javax.swing.JFrame {
     }//GEN-LAST:event_Bot_guardar_cMouseExited
 
     private void Bot_analizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_analizarMouseClicked
-        
+    
     if (eventg==1){    
         String contenido="";
-        
+        mconsola="";
         System.out.println("%%%%%%%%%%%%%%%%%%%% ANALISIS DE CADENA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         for(int i=0; i<lexema.size()-1;i+=2){
             String valido="Cadena Válida";
@@ -752,9 +755,11 @@ public class principal_interface extends javax.swing.JFrame {
                     mconsola+="La expresión: "+lexema.get(i+1)+" es válida con la expresión Regular "+lexema.get(i)+".\n";
                     this.text_consola.setText("");
                     this.text_consola.setText(mconsola);
+                    
+                    
                 }
                 contenido+="   {\n"+
-"   \"Valor\":"+lexema.get(i+1)+",\n"+
+"   \"Valor\":"+lexema.get(i+1).replace("\\\'","\'")+",\n"+
 "   \"ExpresionRegular\":\""+lexema.get(i)+"\",\n"+
 "   \"Resultado\":\""+valido+"\"\n"+
 "   }";
@@ -772,6 +777,7 @@ public class principal_interface extends javax.swing.JFrame {
     private void Bot_analizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bot_analizarMouseEntered
         Bot_analizar.setBackground(new java.awt.Color(13,183,205));
         Bot_analizar.setForeground(Color.WHITE);
+        
         carpetas();
     }//GEN-LAST:event_Bot_analizarMouseEntered
 
@@ -808,10 +814,10 @@ public class principal_interface extends javax.swing.JFrame {
                         expresion = parse.expresion;
                         lexema = parse.lexema;
                         filalex = parse.filas;
-                        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
                         
                         for(int k=0; k<expresion.size()-1;k+=2){
-                            System.out.println(parse.expresion.get(k+1));
+                            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                            //System.out.println(parse.expresion.get(k+1));
                             gen_arbol(expresion.get(k),expresion.get(k+1));
                            
                         }
@@ -1041,17 +1047,15 @@ public class principal_interface extends javax.swing.JFrame {
    
     public  void gen_arbol(String id, String er){
         //String er = "+|ab"; 
-        System.out.println("");
-        System.out.println("");
+        
         System.out.println("");
         ArrayList<nodo> listhojas = new ArrayList();
         ArrayList<ArrayList> tablas = new ArrayList();
         er = "." + er + "#";
         System.out.println(er);
+        System.out.println("=======================================THOMSON==============================");
         Arbol arbol = new Arbol(er,id, listhojas, tablas); 
         nodo raiz = arbol.getRoot();
-        
-       
         raiz.follow();
         
         
@@ -1061,7 +1065,7 @@ public class principal_interface extends javax.swing.JFrame {
         TablaTransiciones tran = new TablaTransiciones(raiz, tablas, listhojas); // bug
         System.out.println("=============================TABLA TRANSICIONES=============================");
         tran.impTable(id);
-        System.out.println("============================= GRAPHVIZ===============================================");
+        System.out.println("============================= GRAPHVIZ======================================");
         automata.add(id);
         automata.add(tran.impAFD(id));
     }
@@ -1124,7 +1128,7 @@ public class principal_interface extends javax.swing.JFrame {
                 filaer=(int) filalex.get(i+1);
             }
         }
-        
+        exp=exp.replace("\\\"","\"").replace("\\\'","\'").replace("\\n","€");
         String[] lisexp = exp.split("");
         int colum =0;
         
@@ -1135,6 +1139,7 @@ public class principal_interface extends javax.swing.JFrame {
                 int cont=0;
                 String temp=estado_actual;
                 String item=lisexp[it];
+                item=item.replace("€", "\n");
                 System.out.println("");
                 System.out.println("item: "+lisexp[it]);
                 for(int i=0; i<afdc.size();i++){

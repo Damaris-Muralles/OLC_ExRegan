@@ -23,8 +23,8 @@ digraph G {
                     </tr>
 <tr>
                     <td><font color="white" align="center">X0[1]</font></td>
+                    <td align="center"><font color="white"> -- </font></td>
                     <td align="center"><font color="white">X1</font></td>
-                    <td align="center"><font color="white"> </font></td>
                     <td ><font color="white" align="center"> </font></td>
                     </tr><tr>
                     <td><font color="white" align="center">X1[1, 2]</font></td>
@@ -33,13 +33,13 @@ digraph G {
                     <td ><font color="white" align="center"> </font></td>
                     </tr><tr>
                     <td><font color="white" align="center">X2[3]</font></td>
+                    <td align="center"><font color="white"> -- </font></td>
                     <td align="center"><font color="white">X3</font></td>
-                    <td align="center"><font color="white"> </font></td>
                     <td ><font color="white" align="center"> </font></td>
                     </tr><tr>
                     <td><font color="white" align="center">X3[3, 4]</font></td>
+                    <td align="center"><font color="white"> -- </font></td>
                     <td align="center"><font color="white">X3</font></td>
-                    <td align="center"><font color="white"> </font></td>
                     <td ><font color="white" align="center">true</font></td>
                     </tr>                </table>
         > ] ; 

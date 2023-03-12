@@ -133,30 +133,50 @@ public class TablaTransiciones {
         
        
         for (int i=0; i<lex.size(); i++){
+            
             contenido+="                    <td  align=\"center\" bgcolor=\"#5ee7cd\"><font color=\"black\">"+lex.get(i)+"</font></td>\n";
         }
         contenido+="                    <td  align=\"center\" bgcolor=\"#5ee7cd\"><font color=\"black\">  </font></td>\n" +
 "                    </tr>\n";
        
         for(ArrayList state : states){
-        contenido+="<tr>\n" +
+            contenido+="<tr>\n" +
 "                    <td><font color=\"white\" align=\"center\">"+state.get(0)+state.get(1)+"</font></td>\n";
         
-            int cont =0;
-            for (int i=0; i<lex.size(); i++){
-                for(Object tr : (ArrayList)state.get(2)){
-                    transiciones t = (transiciones) tr;
-                    if(lex.get(i).equals(t.transition)){ 
-                        cont+=1;
-                        contenido+="                    <td align=\"center\"><font color=\"white\">"+t.finalS+"</font></td>\n" ;
-                    }
             
-                }         
-            }
-            while (cont<lex.size()){
-                 contenido+="                    <td align=\"center\"><font color=\"white\"> </font></td>\n" ;
-                 cont+=1;
-            } 
+            ArrayList listt =(ArrayList)state.get(2);
+                       
+            for (int i=0; i<lex.size(); i++){
+               int cont =0;
+               int contv=0;
+               if (listt.size()!=0 ){
+               for(int j=0; j<listt.size(); j++){
+                    transiciones t = (transiciones) listt.get(j);
+                    if(lex.get(i).equals(t.transition)){ 
+                        contenido+="                    <td align=\"center\"><font color=\"white\">"+t.finalS+"</font></td>\n" ;
+                        cont=0;
+                        contv=1;
+                    }else{
+                        if (listt.size()==1){
+                            contenido+="                    <td align=\"center\"><font color=\"white\"> -- </font></td>\n" ;
+                        }else{
+                            if (contv==0){
+                            cont+=1;
+                            }
+                        }
+                    }
+                }
+               }else{
+                    contenido+="                    <td align=\"center\"><font color=\"white\"> -- </font></td>\n" ;
+               }
+               
+                if (cont>0){
+                     
+                   contenido+="                    <td align=\"center\"><font color=\"white\"> -- </font></td>\n" ;
+                }
+                
+             }
+            
             
            
             if (state.get(3).equals(true)){
@@ -176,8 +196,9 @@ public class TablaTransiciones {
     GenerarDot(contenido,archivoname);
     }
     
-     public ArrayList impAFD(String name){
+    public ArrayList impAFD(String name){
          ArrayList afd = new ArrayList();
+         
         String cadena="digraph finite_state_machine {\n" +
 "    fontcolor=\"White\"\n" +
 "    bgcolor=\"#170920\"\n" +
@@ -187,13 +208,14 @@ public class TablaTransiciones {
 "	rankdir=LR;\n";
         String finales =" X0 ";
         String aux ="";
+        
         for(ArrayList state : states){
             String graph = "";
             for(Object tr : (ArrayList)state.get(2)){
                 transiciones t = (transiciones) tr; 
                 graph += t.graph();
                 afd.add(t);
-                aux += "	"+t.initial+" -> "+t.finalS+" [label = \""+t.transition.replace("\"", "\\\"")+"\" color=\"#5ee7cd\" fontcolor=\"#5ee7cd\"];\n";
+                aux += "	"+t.initial+" -> "+t.finalS+" [label = \""+t.transition+"\" color=\"#5ee7cd\" fontcolor=\"#5ee7cd\"];\n";
             }
             System.out.println(graph);
             if(state.get(3).equals(true)){
@@ -208,8 +230,7 @@ public class TablaTransiciones {
         return afd;
     }
     
-     
-      private void GenerarDot(String cadena,String name){
+    private void GenerarDot(String cadena,String name){
         FileWriter fichero = null;
         PrintWriter escritor = null;
         try{

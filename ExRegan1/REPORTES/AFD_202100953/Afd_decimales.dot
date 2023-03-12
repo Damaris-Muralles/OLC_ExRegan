@@ -9,7 +9,7 @@ digraph finite_state_machine {
     node [shape = circle];
 	X0 -> X1 [label = "digito" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X1 -> X1 [label = "digito" color="#5ee7cd" fontcolor="#5ee7cd"];
-	X1 -> X2 [label = "\".\"" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X1 -> X2 [label = ""."" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X2 -> X3 [label = "digito" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X3 -> X3 [label = "digito" color="#5ee7cd" fontcolor="#5ee7cd"];
 }

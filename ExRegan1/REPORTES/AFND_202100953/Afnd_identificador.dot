@@ -10,7 +10,7 @@ digraph finite_state_machine {
 	X0 -> X1 [label = "abecedarioMinus" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X1 -> X2 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X2 -> X3 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
-	X3 -> X4 [label = "\"_\"" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X3 -> X4 [label = "_" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X2 -> X5 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X5 -> X6 [label = "ε" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X6 -> X7 [label = "abecedarioMinus" color="#5ee7cd" fontcolor="#5ee7cd"];

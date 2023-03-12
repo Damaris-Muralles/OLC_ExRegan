@@ -64,7 +64,7 @@ public final class numhoja {
             content+=Listsplit.get(i);
         }
         
-        System.out.println(content);
+        //System.out.println(content);
         return content.length();
     }
 }

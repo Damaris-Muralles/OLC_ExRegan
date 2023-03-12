@@ -1,6 +1,6 @@
 [
    {
-   "Valor":"\\'cadena entre comilla simple\\'",
+   "Valor":"'cadena entre comilla simple'",
    "ExpresionRegular":"cadena",
    "Resultado":"Cadena Válida"
    },

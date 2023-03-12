@@ -22,7 +22,7 @@ digraph finite_state_machine {
 	X3 -> X4 [label = "mayuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X4 -> X4 [label = "minuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X4 -> X4 [label = "mayuscula" color="#5ee7cd" fontcolor="#5ee7cd"];
-	X4 -> X5 [label = "\".\"" color="#5ee7cd" fontcolor="#5ee7cd"];
+	X4 -> X5 [label = ""."" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X5 -> X6 [label = "c" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X6 -> X7 [label = "o" color="#5ee7cd" fontcolor="#5ee7cd"];
 	X7 -> X8 [label = "m" color="#5ee7cd" fontcolor="#5ee7cd"];
