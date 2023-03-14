@@ -23,6 +23,7 @@ public class Arbol {
         String expresion = er;
         Stack pila = new Stack();
         pilac = new Stack();
+        
         String[] erSplit = er.split("");
         ArrayList<String> Listsplit = new ArrayList();
         int n=0;
@@ -35,29 +36,29 @@ public class Arbol {
         for (int i=0;i<erSplit.length;i++){
             c=0;
              //System.out.println("sdfsdf: "+erSplit[i]);
-            if ("{".equals(erSplit[i])){
+            if ("{".equals(erSplit[i])&& (v==0)){
                 n=1;
                 //System.out.println("llave abieerta");
             }
-            if ("}".equals(erSplit[i])){
+            if ("}".equals(erSplit[i])&& (v==0)){
                 Listsplit.add(id);
                 //System.out.println("llave cerrada"+id);
                 n=0;
                 id="";
             }
-            if (("\"".equals(erSplit[i]))&& (v==1)){
+            if (("\"".equals(erSplit[i]))&& (v==1)&&(numi==-1)){
                 id+=erSplit[i];
                 Listsplit.add(id); 
-                //System.out.println("fin de comilla: "+id);
+               // System.out.println("fin de comilla: "+id);
                 v=0;
                 n=0;
                 c=1;
                 id="";
             }
-            if (("\"".equals(erSplit[i]))&& (v==0)&&(c==0)){
+            if (("\"".equals(erSplit[i]))&& (v==0)&&(c==0)&&(numi==-1)){
                 n=1;
                 v=1;
-                //System.out.println("comilla inicial");
+               // System.out.println("comilla inicial");
             }
             
             if (("\\".equals(erSplit[i]))){
@@ -72,9 +73,9 @@ public class Arbol {
                 }else{
                     if (!"{".equals(erSplit[i])){
                         id+=erSplit[i];
-                        //System.out.println("pr "+id);
+                      //  System.out.println("pr "+id);
                     }
-                    if (numi+1==i){
+                    if (numi!=-1&&numi+1==i){
                         Listsplit.add(id); 
                         //System.out.println("agregando escape: "+id);
                         id="";
@@ -84,6 +85,7 @@ public class Arbol {
             }
             if (n==0){
                 if (!("}".equals(erSplit[i]))&&!("\"".equals(erSplit[i]))&&(numi==-1)){
+                   // System.out.println("entro: "+erSplit[i]);
                         Listsplit.add(erSplit[i]);
                         
                         
@@ -162,7 +164,10 @@ public class Arbol {
     }
     
     public void impTree(String ex,String id){
+        
+        ex=ex.replace("\\\"", "€");
         ex=ex.replace("\"", "\\\"");
+        ex=ex.replace( "€", "\\\"");
         String contenido1 ="graph \"\" {\n" +
 "\n" +
 "    fontcolor=\"cyan4\"\n" +
@@ -262,7 +267,13 @@ public class Arbol {
             }else{
                 System.out.println(nk.initial+ "->"+nk.transitions+ "->"+nk.finalS);
                 nodo nda=(nodo)nk.transitions;
-                String ex=nda.lexema.replace("\"", "\\\"");
+                //System.out.println("sdfsdfsdf -< "+nda.lexema);
+                String ex="";
+                if (nda.lexema.equals("\\\"")){
+                    ex=nda.lexema;
+                }else{
+                    ex=nda.lexema.replace("\"","\\\"");
+                }
                 aux+="	X"+nk.initial+" -> X"+nk.finalS+" [label = \""+ex+"\" color=\"#5ee7cd\" fontcolor=\"#5ee7cd\"];\n";
             }
             int num=0;

@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 
 D=[0-9]+
-DD=[0-9]+("."[  |0-9]+)?
+//DD=[0-9]+("."[  |0-9]+)?
 LMAYUS =[A-Z]
 LMINUS =[a-z]
 ESPECIALESC =(\\\")|(\\\')|(\\n)|("\\\"")|("\\\'")|("\\n")
@@ -46,7 +46,7 @@ INDIVIDUAL =(\"{EXCEPCION_S}\")|{ESPECIALESC}
 CADENA = \" ([^\"]|"\\\"")+\"
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
-EntradaM = \t|[^\t]
+//EntradaM = \t|[^\t]
 comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
 comentariomultiple    = [<][!][^\!\>]*[!][>]
 
@@ -75,7 +75,7 @@ comentariomultiple    = [<][!][^\!\>]*[!][>]
 <YYINITIAL> {comentariosimple} {System.out.println("Comentario: "+yytext()); }
 <YYINITIAL> {comentariomultiple} {System.out.println("Comentario multilinea: "+yytext()); }
 <YYINITIAL> {D} {System.out.println("Reconocio "+yytext()+" numeros"); return new Symbol(sym.NUMEROS,yyline,yychar, yytext());} 
-<YYINITIAL> {DD} {System.out.println("Reconocio "+yytext()+" numeros decimales"); return new Symbol(sym.DECIMAL,yyline,yychar, yytext());}
+//<YYINITIAL> {DD} {System.out.println("Reconocio "+yytext()+" numeros decimales"); return new Symbol(sym.DECIMAL,yyline,yychar, yytext());}
 <YYINITIAL> {LMAYUS} {System.out.println("Reconocio "+yytext()+" letras mayusculas"); return new Symbol(sym.ALFAMAYUS,yyline,yychar, yytext());}
 <YYINITIAL> {INDIVIDUAL} {System.out.println("Reconocio individual: "+yytext()); return new Symbol(sym.INDIV,yyline,yychar, yytext());} 
 <YYINITIAL> {CADENA} {System.out.println("Reconocio cadena: " +yytext()); return new Symbol(sym.CADENA,yyline,yychar, yytext());}

@@ -215,7 +215,17 @@ public class TablaTransiciones {
                 transiciones t = (transiciones) tr; 
                 graph += t.graph();
                 afd.add(t);
-                aux += "	"+t.initial+" -> "+t.finalS+" [label = \""+t.transition+"\" color=\"#5ee7cd\" fontcolor=\"#5ee7cd\"];\n";
+                String ex="";
+                if (t.transition.equals("\\\"")){
+                    ex=t.transition;
+                }else{
+                    ex=t.transition.replace("\"","\\\"");
+                }
+                if (t.transition.equals("\\n")){
+                    System.out.println("entro");
+                    ex="\\\\n";
+                }
+                aux += "	"+t.initial+" -> "+t.finalS+" [label = \""+ex+"\" color=\"#5ee7cd\" fontcolor=\"#3ca8c2\"];\n";
             }
             System.out.println(graph);
             if(state.get(3).equals(true)){

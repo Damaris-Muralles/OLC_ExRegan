@@ -12,12 +12,11 @@ public class sym {
   public static final int LLAVA = 3;
   public static final int ALFAMAYUS = 17;
   public static final int GUION = 9;
-  public static final int CADENA = 23;
+  public static final int CADENA = 22;
   public static final int ONDGUION = 10;
   public static final int CBOOL = 16;
-  public static final int DECIMAL = 22;
   public static final int ALFAMINUS = 18;
-  public static final int INDIV = 24;
+  public static final int INDIV = 23;
   public static final int CESPECIAL = 20;
   public static final int COMA = 5;
   public static final int PP = 7;
@@ -56,7 +55,6 @@ public class sym {
   "NUMEROS",
   "CESPECIAL",
   "IDTEXT",
-  "DECIMAL",
   "CADENA",
   "INDIV"
   };
